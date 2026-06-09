@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>โปรไฟล์ของฉัน</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Prompt',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:linear-gradient(
+        135deg,
+        #00b4ff,
+        #007bff,
+        #4facfe
+    );
+}
+
+/* กรอบหลัก */
+.card{
+    width:90%;
+    max-width:600px;
+
+    background:#ffffff;
+
+    border:5px solid #ffffff;
+    border-radius:25px;
+
+    padding:40px;
+
+    text-align:center;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.25),
+        0 0 20px rgba(255,255,255,0.6);
+
+    animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(-12px);
+    }
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+.profile{
+    width:130px;
+    height:130px;
+
+    border-radius:50%;
+    border:4px solid #007bff;
+
+    margin:0 auto 20px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:60px;
+
+    background:#eaf5ff;
+}
+
+h1{
+    color:#007bff;
+    margin-bottom:20px;
+}
+
+p{
+    font-size:18px;
+    line-height:1.8;
+    color:#333;
+    margin-bottom:10px;
+}
+
+.highlight{
+    color:#007bff;
+    font-weight:bold;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 30px;
+
+    background:#007bff;
+    color:white;
+
+    text-decoration:none;
+
+    border-radius:30px;
+
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#005fd1;
+    transform:scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="profile">
+        👨‍🎓
+    </div>
+
+    <h1>ยินดีต้อนรับสู่โปรไฟล์ของฉัน</h1>
+
+    <p>
+        สวัสดีครับ! ผมชื่อ
+        <span class="highlight">ชนาธิป (Chanathip)</span>
+    </p>
+
+    <p>
+        กำลังศึกษาอยู่ในระดับ
+        <span class="highlight">มัธยมศึกษาตอนปลาย</span>
+    </p>
+
+    <p>
+        สนใจด้าน
+        <span class="highlight">วิทยาศาสตร์สุขภาพ</span>
+    </p>
+
+    <p>
+        🚀 นี่คือเว็บไซต์แรกของผมที่โฮสต์บน GitHub Pages
+    </p>
+
+    <a href="#" class="btn">ติดต่อฉัน</a>
+
+</div>
+
+</body>
+</html>
