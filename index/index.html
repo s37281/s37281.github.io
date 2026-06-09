@@ -2,29 +2,158 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>หน้าแนะนำตัวของฉัน</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>โปรไฟล์ของฉัน</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
-body {
-background-color: #f4f7f6; color: #333;
-text-align: center; padding: 50px;
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Prompt',sans-serif;
 }
-.card {
-background: white; border-radius: 10px;
-box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-max-width: 500px; margin: 0 auto; padding: 30px;
 
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background: linear-gradient(
+        135deg,
+        #00c6ff,
+        #0072ff,
+        #4facfe
+    );
 }
-h1 { color: #2c3e50; }
-p { font-size: 18px; line-height: 1.6; }
+
+.card{
+    width:90%;
+    max-width:550px;
+
+    padding:40px;
+
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    border:1px solid rgba(255,255,255,0.3);
+
+    border-radius:25px;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.2),
+        0 0 25px rgba(255,255,255,0.2);
+
+    text-align:center;
+
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%{
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(-10px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
+}
+
+.profile-img{
+    width:120px;
+    height:120px;
+
+    border-radius:50%;
+    border:4px solid white;
+
+    margin-bottom:20px;
+
+    object-fit:cover;
+
+    box-shadow:0 0 20px rgba(255,255,255,0.5);
+}
+
+h1{
+    color:white;
+    margin-bottom:15px;
+    font-size:2rem;
+}
+
+p{
+    color:white;
+    font-size:1.1rem;
+    line-height:1.8;
+    margin-bottom:10px;
+}
+
+.highlight{
+    color:#ffe082;
+    font-weight:600;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 30px;
+
+    text-decoration:none;
+
+    background:white;
+    color:#0072ff;
+
+    border-radius:30px;
+    font-weight:bold;
+
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 8px 20px rgba(255,255,255,0.4);
+}
+
 </style>
 </head>
 <body>
+
 <div class="card">
-<h1>ยินดีต้อนรับสู่โปรไฟล์ของฉัน </h1>
-<p>สวัสดีครับ! ผมชื่อ <strong>ชนาธิป (Chanathip)</strong></p>
-<p>ขณะนี้กำลังศึกษาอยู่ในระดับชั้นมัธยมศึกษาตินปลาย/สนใจด้านวิทยาศาสตร์สุขภาพ</p>
-<p>นี่คือเว็บไซต์แรกของผมที่โฮสต์บน GitHub Pages!</p>
+
+    <!-- เปลี่ยนรูปได้ -->
+    <img src="https://via.placeholder.com/120"
+         alt="Profile"
+         class="profile-img">
+
+    <h1>👋 ยินดีต้อนรับ</h1>
+
+    <p>
+        สวัสดีครับ! ผมชื่อ
+        <span class="highlight">ชนาธิป (Chanathip)</span>
+    </p>
+
+    <p>
+        กำลังศึกษาอยู่ในระดับ
+        <span class="highlight">มัธยมศึกษาตอนปลาย</span>
+    </p>
+
+    <p>
+        สนใจด้าน
+        <span class="highlight">วิทยาศาสตร์สุขภาพ</span>
+    </p>
+
+    <p>
+        🚀 นี่คือเว็บไซต์แรกของผมที่โฮสต์บน GitHub Pages
+    </p>
+
+    <a href="#" class="btn">ติดต่อฉัน</a>
+
 </div>
+
 </body>
 </html>
