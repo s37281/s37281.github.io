@@ -1,1 +1,412 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ชนาธิป จึงสงวนสิทธิ์ — โปรไฟล์</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Noto+Serif+Thai:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green:   #006b3c;   /* กระทรวงสาธารณสุข */
+    --green2:  #009150;
+    --teal:    #00897b;
+    --white:   #ffffff;
+    --offwhite:#f2f8f5;
+    --text:    #1a2e22;
+    --gray:    #607d6b;
+    --accent:  #e8f5ee;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background: var(--offwhite);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ─── TOP STRIPE ─── */
+  .top-stripe {
+    background: var(--green);
+    height: 6px;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid #d4e8dc;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,107,60,0.07);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--green);
+  }
+  /* SVG ตราสาธารณสุข */
+  .moph-logo svg { width: 40px; height: 40px; }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--gray);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--green); }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(160deg, var(--green) 0%, var(--teal) 100%);
+    padding: 70px 24px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  /* ECG line decoration */
+  .hero::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: var(--offwhite);
+    clip-path: polygon(0 100%, 100% 100%, 100% 40%, 80% 40%, 75% 0%, 70% 40%, 65% 40%, 60% 70%, 55% 40%, 0 40%);
+  }
+
+  /* Medical cross watermark */
+  .hero-cross {
+    position: absolute;
+    top: -30px; right: -30px;
+    font-size: 200px;
+    opacity: 0.06;
+    color: white;
+    font-weight: 900;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  /* Syringe left watermark */
+  .hero-syringe {
+    position: absolute;
+    bottom: 70px; left: 30px;
+    font-size: 120px;
+    opacity: 0.08;
+    transform: rotate(-30deg);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .photo-wrap {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 24px;
+  }
+  .photo-ring {
+    width: 148px; height: 148px;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.9);
+    overflow: hidden;
+    margin: 0 auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  }
+  .photo-ring img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  /* badge บน avatar */
+  .photo-badge {
+    position: absolute;
+    bottom: 4px; right: -4px;
+    background: white;
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .hero h1 {
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+  .hero h1 small {
+    display: block;
+    font-family: 'Sarabun', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    opacity: 0.85;
+    margin-top: 4px;
+  }
+  .hero-sub {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+    line-height: 1.7;
+  }
+
+  .hero-pills {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  .pill {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .btn-hero {
+    display: inline-block;
+    background: white;
+    color: var(--green);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 14px 36px;
+    border-radius: 30px;
+    text-decoration: none;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    z-index: 1;
+  }
+  .btn-hero:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+  }
+
+  /* ─── ABOUT SECTION ─── */
+  .section {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 56px 24px 40px;
+  }
+  .sec-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .sec-title .icon { font-size: 1.5rem; }
+  .sec-title h2 {
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 1.25rem;
+    color: var(--green);
+  }
+  .sec-title .rule { flex: 1; height: 1px; background: #b2d4be; }
+
+  /* Info grid */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .info-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px 18px;
+    border-top: 3px solid var(--green2);
+    box-shadow: 0 2px 12px rgba(0,107,60,0.07);
+  }
+  .info-card .label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .info-card .val {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* Passion card */
+  .passion-box {
+    background: white;
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 2px 12px rgba(0,107,60,0.07);
+    border-left: 5px solid var(--green2);
+    line-height: 1.85;
+    font-size: 1rem;
+    color: #2e4435;
+  }
+  .passion-box strong { color: var(--green); }
+
+  /* Medical icons row */
+  .med-icons {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin: 40px 0 0;
+    flex-wrap: wrap;
+  }
+  .med-icon {
+    text-align: center;
+  }
+  .med-icon .big { font-size: 2.4rem; }
+  .med-icon p { font-size: 0.78rem; color: var(--gray); margin-top: 6px; font-weight: 600; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--green);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 24px 16px;
+    font-size: 0.82rem;
+    margin-top: 40px;
+  }
+  footer strong { color: white; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.5rem; }
+    nav { padding: 12px 16px; }
+    .nav-links { gap: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-stripe"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <!-- ตราสาธารณสุขไทย (SVG วาดเอง) -->
+    <div class="moph-logo">
+      <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- วงกลมนอก -->
+        <circle cx="40" cy="40" r="37" stroke="#006b3c" stroke-width="3" fill="#f2f8f5"/>
+        <!-- กากบาท -->
+        <rect x="32" y="18" width="16" height="44" rx="4" fill="#006b3c"/>
+        <rect x="18" y="32" width="44" height="16" rx="4" fill="#006b3c"/>
+        <!-- งู (stylized) -->
+        <path d="M40 52 Q44 46 40 42 Q36 38 40 32" stroke="#009150" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <circle cx="40" cy="30" r="2.5" fill="#009150"/>
+        <!-- ดาว 12 แฉก (ตราสาธารณสุข) -->
+        <circle cx="40" cy="40" r="5" fill="white"/>
+      </svg>
+    </div>
+    กระทรวงสาธารณสุข &nbsp;|&nbsp; Portfolio
+  </div>
+  <div class="nav-links">
+    <a href="#about">เกี่ยวกับฉัน</a>
+    <a href="portfolio.html">ผลงาน</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-cross">✚</div>
+  <div class="hero-syringe">💉</div>
+
+  <div class="photo-wrap">
+    <div class="photo-ring">
+      <img src="profile.jpg" alt="ชนาธิป จึงสงวนสิทธิ์">
+    </div>
+    <div class="photo-badge">💊</div>
+  </div>
+
+  <h1>
+    ชนาธิป จึงสงวนสิทธิ์
+    <small>Chanathip Jungsangunsit</small>
+  </h1>
+
+  <p class="hero-sub">
+    นักเรียนระดับมัธยมศึกษาตอนปลาย · มุ่งมั่นสู่วิทยาศาสตร์สุขภาพ
+  </p>
+
+  <div class="hero-pills">
+    <div class="pill">💉 วิทยาศาสตร์สุขภาพ</div>
+    <div class="pill">🏥 สาธารณสุข</div>
+    <div class="pill">🔬 วิจัย</div>
+  </div>
+
+  <a href="portfolio.html" class="btn-hero">ดูแฟ้มสะสมงาน →</a>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="sec-title">
+    <span class="icon">🩺</span>
+    <h2>ข้อมูลส่วนตัว</h2>
+    <div class="rule"></div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="label">ชื่อ-นามสกุล</div>
+      <div class="val">ชนาธิป จึงสงวนสิทธิ์</div>
+    </div>
+    <div class="info-card">
+      <div class="label">ชื่อเล่น</div>
+      <div class="val">บ.บ.</div>
+    </div>
+    <div class="info-card">
+      <div class="label">ระดับชั้น</div>
+      <div class="val">มัธยมศึกษาตอนปลาย</div>
+    </div>
+    <div class="info-card">
+      <div class="label">สายการเรียน</div>
+      <div class="val">วิทยาศาสตร์ – สุขภาพ</div>
+    </div>
+    <div class="info-card">
+      <div class="label">โรงเรียน</div>
+      <div class="val">...</div>
+    </div>
+    <div class="info-card">
+      <div class="label">GitHub</div>
+      <div class="val">s37281.github.io</div>
+    </div>
+  </div>
+
+  <div class="passion-box">
+    สวัสดีครับ! ผมชื่อ <strong>ชนาธิป</strong> มีความสนใจและมุ่งมั่นในด้าน
+    <strong>วิทยาศาสตร์สุขภาพและสาธารณสุข</strong>
+    โดยหวังจะนำความรู้ไปพัฒนาคุณภาพชีวิตของผู้คนในสังคม
+    ทั้งในด้านการป้องกันโรค การส่งเสริมสุขภาพ และการดูแลชุมชน
+    ตามแนวทางของ <strong>กระทรวงสาธารณสุข</strong>
+    นี่คือเว็บไซต์แรกของผมที่โฮสต์บน GitHub Pages ครับ 🚀
+  </div>
+
+  <div class="med-icons">
+    <div class="med-icon"><div class="big">💉</div><p>วัคซีน</p></div>
+    <div class="med-icon"><div class="big">🏥</div><p>โรงพยาบาล</p></div>
+    <div class="med-icon"><div class="big">🩺</div><p>ตรวจรักษา</p></div>
+    <div class="med-icon"><div class="big">💊</div><p>เภสัชกรรม</p></div>
+    <div class="med-icon"><div class="big">🔬</div><p>วิจัย</p></div>
+    <div class="med-icon"><div class="big">🩻</div><p>รังสีวิทยา</p></div>
+  </div>
+</section>
+
+<footer>
+  <strong>ชนาธิป จึงสงวนสิทธิ์</strong> · วิทยาศาสตร์สุขภาพ · GitHub Pages
+</footer>
+
+</body>
+</html>
 
