@@ -33,10 +33,8 @@
   /* ─── LEAF ANIMATION ─── */
   .leaf-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
     pointer-events: none;
     z-index: 2;
     overflow: hidden;
@@ -44,8 +42,7 @@
 
   .leaf {
     position: absolute;
-    top: -120px;
-    opacity: 0;
+    top: -120px; opacity: 0;
     pointer-events: none;
     animation: sCurveFall linear infinite;
     filter: drop-shadow(3px 6px 10px rgba(0,0,0,0.12));
@@ -257,10 +254,7 @@
   }
   .card-body p:last-child { margin-bottom: 0; }
 
-  /* รูปภาพประกอบในโครงงาน */
-  .card-img-wrap {
-    padding: 0 24px 24px;
-  }
+  .card-img-wrap { padding: 0 24px 24px; }
   .card-img-wrap img {
     width: 100%;
     max-height: 420px;
@@ -297,17 +291,91 @@
     white-space: pre-line;
   }
 
-  /* BADGES */
-  .badge-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-  .badge {
-    background: var(--green-dark);
-    color: white;
-    font-size: 0.82rem;
-    padding: 6px 14px;
-    border-radius: 20px;
-    display: flex; align-items: center; gap: 6px;
+  /* ─── CERTIFICATE DESIGN (ปรับแต่งองค์ประกอบซ้าย-ขวา) ─── */
+  .cert-banner-card {
+    background: #d8e4d5;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid #c0d3bd;
+    margin-bottom: 28px;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  .badge .dot { color: var(--green-light); font-size: 0.7rem; }
+
+  /* Full background SVG covering both left and right sides */
+  .hex-bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .cert-inner-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .cert-banner-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .cert-item-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 25px;
+  }
+
+  .pill-title {
+    background: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 30px;
+    padding: 8px 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+
+  .arrow-click-btn {
+    display: block;
+    width: 100%;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .arrow-click-btn:hover {
+    transform: translateX(6px);
+  }
+
+  .arrow-click-btn svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+  }
 
   /* ─── BACK BTN ─── */
   .btn-back {
@@ -349,6 +417,7 @@
     .card-head { padding: 14px 16px; }
     .card-body { padding: 18px; }
     .card-img-wrap { padding: 0 18px 18px; }
+    .hex-bg { opacity: 0.7; }
   }
 </style>
 </head>
@@ -436,7 +505,7 @@
       <span class="card-tag">📅 ปีการศึกษา 2568</span>
     </div>
     <div class="card-body">
-      <p>โครงงานนี้มีวัตถุประสงค์เพื่อศึกษาการพัฒนาแอปพลิเคชันตรวจคัดกรองสุขภาพตาผ่านแพลตฟอร์ม Telegram โดยประเมินประสิทธิภาพในการตรวจความผิดปกติของดวงตา การให้คำแนะนำเบื้องต้นและผลของพฤติกรรมการใช้อุปกรณ์ดิจิทัลต่อสุขภาพของตา</p>
+      <p>โครงงานนี้มีวัตถุประสงค์เพื่อศึกษาการพัฒนาแอปพลิเคชันตรวจคัดกรองสุขภาพตาผ่านแพลตฟอร์ม Telegram โดยประเมินประสิทธิภาพในการตรวจความผิดปกติของดวงตา การให้คำแนะนำเบื้องต้นและผลของพฤติกรรมการใชุปกรณ์ดิจิทัลต่อสุขภาพของตา</p>
       
       <p><strong>ขั้นตอนการดำเนินงาน:</strong>
 1. ตั้งหัวข้อที่ในกลุ่มสนใจและเสนอกับครูผู้สอน
@@ -484,34 +553,76 @@
     </div>
   </div>
 
-  <!-- ACHIEVEMENTS -->
+  <!-- ACHIEVEMENTS SELECTION (การ์ดเกียรติบัตร เพิ่มลายตกแต่งทั้งซ้ายและขวา) -->
   <div class="sec-title">
     <span>🏆</span>
     <h2>กิจกรรม / เกียรติบัตรที่ได้รับ</h2>
     <div class="rule"></div>
   </div>
 
-  <div class="card">
-    <div class="card-head">
-      <div class="card-num">★</div>
-      <h3>รายการเกียรติบัตรและรางวัล</h3>
-    </div>
-    <div class="card-body">
-      <p>รายการกิจกรรมและเกียรติบัตรที่ได้รับตลอดช่วงการศึกษา</p>
-      <div class="badge-row">
-        <div class="badge"><span class="dot">●</span> เกียรติบัตรการเข้าร่วมกิจกรรม</div>
-        <div class="badge"><span class="dot">●</span> รางวัลการแข่งขันวิชาการ</div>
-        <div class="badge"><span class="dot">●</span> กิจกรรมจิตอาสาพัฒนาชุมชน</div>
-        <div class="badge"><span class="dot">●</span> การอบรมปฐมพยาบาลเบื้องต้น</div>
+  <div class="cert-banner-card">
+    <!-- SVG Hexagon & Dot Pattern Decorative Backgrounds (ทั้งซ้ายและขวา) -->
+    <svg class="hex-bg" viewBox="0 0 800 400" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="dotGrid" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+          <circle cx="3" cy="3" r="2" fill="#7fa885"/>
+        </pattern>
+      </defs>
+
+      <!-- ─── องค์ประกอบฝั่งซ้าย (LEFT SIDE DECORATIONS) ─── -->
+      <!-- รูปหกเหลี่ยมใหญ่ฝั่งซ้าย -->
+      <polygon points="-60,-40 80,-40 150,80 80,200 -60,200 -130,80" fill="#2d5b3e" opacity="0.85"/>
+      <polygon points="10,100 110,100 160,185 110,270 10,270 -40,185" fill="#487859" opacity="0.65"/>
+      <polygon points="-50,240 50,240 100,325 50,410 -50,410 -100,325" fill="#2d5b3e" opacity="0.8"/>
+      <!-- รูปหกเหลี่ยมเล็กประดับฝั่งซ้าย -->
+      <polygon points="130,30 170,30 190,65 170,100 130,100 110,65" fill="#487859" opacity="0.5"/>
+      <polygon points="120,280 160,280 180,315 160,350 120,350 100,315" fill="#2d5b3e" opacity="0.6"/>
+      <!-- ลายจุด Dot Matrix ฝั่งซ้าย -->
+      <rect x="50" y="15" width="110" height="110" fill="url(#dotGrid)" opacity="0.75"/>
+      <rect x="15" y="170" width="100" height="120" fill="url(#dotGrid)" opacity="0.65"/>
+
+      <!-- ─── องค์ประกอบฝั่งขวา (RIGHT SIDE DECORATIONS) ─── -->
+      <!-- รูปหกเหลี่ยมฝั่งขวา -->
+      <polygon points="680,-30 810,-30 870,70 810,170 680,170 620,70" fill="#2d5b3e" opacity="0.9"/>
+      <polygon points="640,90 760,90 820,190 760,290 640,290 580,190" fill="#487859" opacity="0.85"/>
+      <polygon points="690,270 810,270 870,360 810,450 690,450 630,360" fill="#2d5b3e" opacity="0.9"/>
+      <polygon points="540,260 590,260 615,300 590,340 540,340 515,300" fill="#487859" opacity="0.65"/>
+      <polygon points="610,10 650,10 670,45 650,80 610,80 590,45" fill="#2d5b3e" opacity="0.5"/>
+      <!-- ลายจุด Dot Matrix ฝั่งขวา -->
+      <rect x="670" y="20" width="90" height="110" fill="url(#dotGrid)" opacity="0.75"/>
+      <rect x="570" y="120" width="70" height="120" fill="url(#dotGrid)" opacity="0.65"/>
+    </svg>
+
+    <div class="cert-inner-content">
+      <h3 class="cert-banner-title">รายการกิจกรรมและเกียรติบัตร</h3>
+
+      <!-- Item 1: มัธยมศึกษาปีที่4 -5 -->
+      <div class="cert-item-block">
+        <div class="pill-title">มัธยมศึกษาปีที่4 -5</div>
+        <a href="เกียรคิบัตร01.html" class="arrow-click-btn" title="ไปหน้า มัธยมศึกษาปีที่ 4-5">
+          <svg viewBox="0 0 280 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 2 C2 2 0 4 0 7 L0 43 C0 46 2 48 5 48 L260 48 L280 25 L260 2 Z" fill="#aee09b" stroke="#7ebc6a" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <line x1="25" y1="25" x2="230" y2="25" stroke="#000000" stroke-width="3" stroke-linecap="round"/>
+            <polygon points="222,17 238,25 222,33" fill="#000000"/>
+          </svg>
+        </a>
       </div>
-      <div class="detail-grid" style="margin-top:18px;">
-        <div class="detail-item"><div class="lbl">ปีที่ได้รับ</div><div class="vl">2567 - 2568</div></div>
-        <div class="detail-item"><div class="lbl">หน่วยงานที่มอบ</div><div class="vl">โรงเรียน / หน่วยงานสาธารณสุข</div></div>
+
+      <!-- Item 2: มัธยมศึกษาปีที่5 -6 -->
+      <div class="cert-item-block">
+        <div class="pill-title">มัธยมศึกษาปีที่5 -6</div>
+        <a href="เกียรติบัตร02.html" class="arrow-click-btn" title="ไปหน้า มัธยมศึกษาปีที่ 5-6">
+          <svg viewBox="0 0 280 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 2 C2 2 0 4 0 7 L0 43 C0 46 2 48 5 48 L260 48 L280 25 L260 2 Z" fill="#aee09b" stroke="#7ebc6a" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <line x1="25" y1="25" x2="230" y2="25" stroke="#000000" stroke-width="3" stroke-linecap="round"/>
+            <polygon points="222,17 238,25 222,33" fill="#000000"/>
+          </svg>
+        </a>
       </div>
     </div>
   </div>
 
-  <a href="index.html" class="btn-back">← กลับหน้าแรก</a>
+  <a href="ประวัติส่วนตัว.html" class="btn-back">← กลับหน้าประวัติส่วนตัว</a>
 </main>
 
 <footer>
