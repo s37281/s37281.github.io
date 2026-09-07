@@ -3,43 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>แฟ้มสะสมงาน — ชนาธิป</title>
+<title>แฟ้มสะสมงาน — ชนาธิป จึงสงวนสิทธิ์</title>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Noto+Serif+Thai:wght@600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --green:   #006b3c;
-    --green2:  #009150;
-    --teal:    #00897b;
-    --white:   #ffffff;
-    --offwhite:#f2f8f5;
-    --text:    #1a2e22;
-    --gray:    #607d6b;
-    --gold:    #c9a82a;
-    --shadow:  0 4px 20px rgba(0,107,60,0.09);
+    --green-dark: #2d5b3e;
+    --green-mid: #487859;
+    --green-light: #97c47c;
+    --bg-sage: #e1eae0;
+    --box-bg: #eaf1e8;
+    --text-dark: #1f2e23;
+    --white: #ffffff;
+    --shadow: 0 4px 18px rgba(45,91,62,0.1);
   }
+
+  html { scroll-behavior: smooth; }
 
   body {
     font-family: 'Sarabun', sans-serif;
-    background: var(--offwhite);
-    color: var(--text);
+    background: var(--bg-sage);
+    color: var(--text-dark);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
   }
 
-  .top-stripe { background: var(--green); height: 6px; }
+  /* ─── LEAF ANIMATION ─── */
+  .leaf-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+  }
 
-  /* ─── NAV ─── */
+  .leaf {
+    position: absolute;
+    top: -120px;
+    opacity: 0;
+    pointer-events: none;
+    animation: sCurveFall linear infinite;
+    filter: drop-shadow(3px 6px 10px rgba(0,0,0,0.12));
+  }
+
+  .leaf.small { width: 40px; height: 40px; }
+  .leaf.medium { width: 68px; height: 68px; }
+  .leaf.large { width: 100px; height: 100px; }
+
+  @keyframes sCurveFall {
+    0% { transform: translate(0, 0) rotate(0deg) scale(0.9); opacity: 0; }
+    10% { opacity: 0.85; }
+    30% { transform: translate(-40vw, 30vh) rotate(45deg) scale(1.05); }
+    55% { transform: translate(-48vw, 60vh) rotate(-20deg) scale(1); }
+    80% { transform: translate(-90vw, 88vh) rotate(70deg) scale(0.95); opacity: 0.85; }
+    100% { transform: translate(-120vw, 115vh) rotate(130deg) scale(0.85); opacity: 0; }
+  }
+
+  /* ─── TOP STRIPE & NAV ─── */
+  .top-stripe {
+    background: var(--green-dark);
+    height: 5px;
+    position: relative;
+    z-index: 10;
+  }
+
   nav {
     background: var(--white);
-    border-bottom: 1px solid #d4e8dc;
-    padding: 14px 32px;
+    border-bottom: 1px solid #c8d6c5;
+    padding: 12px 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,107,60,0.07);
+    box-shadow: 0 2px 10px rgba(45,91,62,0.08);
   }
   .nav-logo {
     display: flex;
@@ -47,54 +90,55 @@
     gap: 10px;
     font-weight: 700;
     font-size: 0.95rem;
-    color: var(--green);
+    color: var(--green-dark);
   }
-  .nav-logo svg { width: 38px; height: 38px; }
+  .nav-logo svg { width: 36px; height: 36px; }
   .nav-links a {
     text-decoration: none;
-    color: var(--gray);
+    color: #556b58;
     font-size: 0.9rem;
     font-weight: 600;
     transition: color 0.2s;
   }
-  .nav-links a:hover { color: var(--green); }
+  .nav-links a:hover { color: var(--green-dark); }
 
   /* ─── HEADER ─── */
   header {
-    background: linear-gradient(160deg, var(--green) 0%, var(--teal) 100%);
+    background: linear-gradient(160deg, var(--green-dark) 0%, var(--green-mid) 100%);
     color: white;
     text-align: center;
-    padding: 52px 24px 42px;
+    padding: 52px 24px 48px;
     position: relative;
     overflow: hidden;
+    z-index: 10;
   }
   header::after {
     content: '';
     position: absolute;
     bottom: 0; left: 0; right: 0;
     height: 36px;
-    background: var(--offwhite);
+    background: var(--bg-sage);
     clip-path: ellipse(55% 100% at 50% 100%);
   }
   .header-watermark {
     position: absolute;
     right: 20px; top: 10px;
-    font-size: 140px;
-    opacity: 0.07;
+    font-size: 130px;
+    opacity: 0.08;
     pointer-events: none;
   }
   .header-syringe {
     position: absolute;
     left: 20px; bottom: 40px;
-    font-size: 90px;
+    font-size: 85px;
     opacity: 0.08;
     transform: rotate(20deg);
     pointer-events: none;
   }
   .header-avatar {
-    width: 80px; height: 80px;
+    width: 88px; height: 88px;
     border-radius: 50%;
-    border: 3px solid rgba(255,255,255,0.8);
+    border: 3px solid rgba(255,255,255,0.85);
     overflow: hidden;
     margin: 0 auto 16px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.2);
@@ -109,166 +153,202 @@
     margin-bottom: 6px;
   }
   header p {
-    color: rgba(255,255,255,0.8);
-    font-size: 0.92rem;
+    color: rgba(255,255,255,0.88);
+    font-size: 0.95rem;
   }
 
   /* ─── MAIN ─── */
   main {
     max-width: 860px;
     margin: 0 auto;
-    padding: 48px 24px 60px;
+    padding: 40px 24px 60px;
+    position: relative;
+    z-index: 10;
   }
 
   .sec-title {
     display: flex; align-items: center; gap: 12px;
-    margin-bottom: 26px;
+    margin-bottom: 24px;
   }
   .sec-title h2 {
     font-family: 'Noto Serif Thai', serif;
-    font-size: 1.2rem;
-    color: var(--green);
+    font-size: 1.3rem;
+    color: var(--green-dark);
     white-space: nowrap;
   }
-  .sec-title .rule { flex: 1; height: 1px; background: #b2d4be; }
+  .sec-title .rule { flex: 1; height: 1px; background: #b8cbb5; }
 
   /* ─── SKILL BARS ─── */
   .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
     margin-bottom: 48px;
   }
   .skill-box {
     background: var(--white);
-    border-radius: 12px;
-    padding: 18px 16px;
+    border: 1px solid #c8d6c5;
+    border-radius: 14px;
+    padding: 20px 16px;
     box-shadow: var(--shadow);
     text-align: center;
   }
-  .skill-box .icon { font-size: 1.7rem; margin-bottom: 8px; }
-  .skill-box .name { font-weight: 600; font-size: 0.88rem; color: var(--text); }
+  .skill-box .icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .skill-box .name { font-weight: 600; font-size: 0.9rem; color: var(--text-dark); }
   .bar-bg {
-    height: 6px; background: #d8eedf;
-    border-radius: 3px; margin-top: 8px; overflow: hidden;
+    height: 7px; background: var(--box-bg);
+    border-radius: 4px; margin-top: 10px; overflow: hidden;
+    border: 1px solid #c0d3bd;
   }
-  .bar { height: 100%; border-radius: 3px;
-    background: linear-gradient(90deg, var(--green), var(--green2)); }
+  .bar {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--green-mid), var(--green-light));
+  }
 
   /* ─── CARD ─── */
   .card {
     background: var(--white);
-    border-radius: 14px;
+    border-radius: 16px;
     box-shadow: var(--shadow);
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     overflow: hidden;
-    border-left: 5px solid var(--green);
-    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #c8d6c5;
+    border-left: 6px solid var(--green-dark);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
   .card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 28px rgba(0,107,60,0.13);
+    box-shadow: 0 8px 24px rgba(45,91,62,0.14);
   }
   .card-head {
-    background: var(--green);
-    padding: 15px 22px;
-    display: flex; align-items: center; gap: 13px;
+    background: var(--green-dark);
+    padding: 16px 22px;
+    display: flex; align-items: center; gap: 14px;
   }
   .card-num {
     background: white;
-    color: var(--green);
+    color: var(--green-dark);
     font-weight: 700;
-    font-size: 0.8rem;
-    width: 28px; height: 28px;
+    font-size: 0.85rem;
+    width: 30px; height: 30px;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
-  .card-head h3 { color: white; font-size: 1rem; font-weight: 600; }
+  .card-head h3 { color: white; font-size: 1.05rem; font-weight: 600; }
   .card-tag {
     margin-left: auto;
     background: rgba(255,255,255,0.18);
     border: 1px solid rgba(255,255,255,0.35);
     color: white;
-    font-size: 0.75rem;
-    padding: 3px 10px;
+    font-size: 0.78rem;
+    padding: 4px 12px;
     border-radius: 20px;
     white-space: nowrap;
   }
-  .card-body { padding: 22px 24px; }
+  .card-body { padding: 24px; }
   .card-body p {
     font-size: 0.96rem;
     line-height: 1.85;
-    color: #2e4435;
+    color: var(--text-dark);
     margin-bottom: 14px;
+    white-space: pre-line;
   }
   .card-body p:last-child { margin-bottom: 0; }
+
+  /* รูปภาพประกอบในโครงงาน */
+  .card-img-wrap {
+    padding: 0 24px 24px;
+  }
+  .card-img-wrap img {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #c8d6c5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
 
   .detail-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 14px;
+    gap: 12px;
+    margin-top: 16px;
   }
   .detail-item {
-    background: var(--offwhite);
-    border-radius: 8px;
-    padding: 11px 13px;
+    background: var(--box-bg);
+    border: 1px solid #c0d3bd;
+    border-radius: 10px;
+    padding: 12px 14px;
   }
   .detail-item .lbl {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: var(--green);
+    color: var(--green-dark);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
   }
   .detail-item .vl {
-    font-size: 0.9rem;
-    color: var(--text);
+    font-size: 0.92rem;
+    color: var(--text-dark);
     font-weight: 500;
+    white-space: pre-line;
   }
 
-  /* badge row */
-  .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  /* BADGES */
+  .badge-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
   .badge {
-    background: var(--green);
+    background: var(--green-dark);
     color: white;
-    font-size: 0.8rem;
-    padding: 5px 13px;
+    font-size: 0.82rem;
+    padding: 6px 14px;
     border-radius: 20px;
-    display: flex; align-items: center; gap: 5px;
+    display: flex; align-items: center; gap: 6px;
   }
-  .badge .dot { color: #7de8a8; }
+  .badge .dot { color: var(--green-light); font-size: 0.7rem; }
 
   /* ─── BACK BTN ─── */
   .btn-back {
     display: inline-flex; align-items: center; gap: 8px;
-    background: var(--green);
-    color: white;
-    padding: 13px 28px;
+    background: var(--green-light);
+    color: var(--text-dark);
+    border: 1px solid var(--text-dark);
+    padding: 12px 30px;
     border-radius: 30px;
     text-decoration: none;
     font-weight: 600;
     font-size: 0.95rem;
-    transition: background 0.2s, transform 0.2s;
-    margin-top: 8px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    margin-top: 12px;
   }
-  .btn-back:hover { background: #004d2c; transform: translateY(-2px); }
+  .btn-back:hover {
+    background: #87b86c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+  }
 
   /* ─── FOOTER ─── */
   footer {
-    background: var(--green);
-    color: rgba(255,255,255,0.65);
+    background: var(--green-dark);
+    color: rgba(255,255,255,0.85);
     text-align: center;
-    padding: 22px;
-    font-size: 0.82rem;
+    padding: 22px 16px;
+    font-size: 0.85rem;
+    margin-top: 40px;
+    position: relative;
+    z-index: 10;
   }
   footer strong { color: white; }
 
   @media (max-width: 600px) {
     header h1 { font-size: 1.4rem; }
     .detail-grid { grid-template-columns: 1fr; }
+    .card-head { padding: 14px 16px; }
+    .card-body { padding: 18px; }
+    .card-img-wrap { padding: 0 18px 18px; }
   }
 </style>
 </head>
@@ -276,15 +356,18 @@
 
 <div class="top-stripe"></div>
 
+<!-- Leaf Container -->
+<div class="leaf-container" id="leafContainer"></div>
+
 <!-- NAV -->
 <nav>
   <div class="nav-logo">
     <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="40" cy="40" r="37" stroke="#006b3c" stroke-width="3" fill="#f2f8f5"/>
-      <rect x="32" y="18" width="16" height="44" rx="4" fill="#006b3c"/>
-      <rect x="18" y="32" width="44" height="16" rx="4" fill="#006b3c"/>
-      <path d="M40 52 Q44 46 40 42 Q36 38 40 32" stroke="#009150" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <circle cx="40" cy="30" r="2.5" fill="#009150"/>
+      <circle cx="40" cy="40" r="37" stroke="#2d5b3e" stroke-width="3" fill="#eaf1e8"/>
+      <rect x="32" y="18" width="16" height="44" rx="4" fill="#2d5b3e"/>
+      <rect x="18" y="32" width="44" height="16" rx="4" fill="#2d5b3e"/>
+      <path d="M40 52 Q44 46 40 42 Q36 38 40 32" stroke="#487859" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <circle cx="40" cy="30" r="2.5" fill="#487859"/>
       <circle cx="40" cy="40" r="5" fill="white"/>
     </svg>
     Portfolio
@@ -299,7 +382,7 @@
   <div class="header-watermark">💉</div>
   <div class="header-syringe">🩺</div>
   <div class="header-avatar">
-    <img src="1781039707261.jpg">
+    <img src="1781039707261.jpg" alt="รูปโปรไฟล์">
   </div>
   <h1>แฟ้มสะสมงาน (Portfolio)</h1>
   <p>ชนาธิป จึงสงวนสิทธิ์ · วิทยาศาสตร์สุขภาพ</p>
@@ -338,42 +421,42 @@
     </div>
   </div>
 
-  <!-- PROJECT 1 -->
+  <!-- PROJECTS -->
   <div class="sec-title">
     <span>🏥</span>
-    <h2>โครงงาน</h2>
+    <h2>โครงงาน / การฝึกประสบการณ์</h2>
     <div class="rule"></div>
   </div>
 
+  <!-- PROJECT 1 -->
   <div class="card">
     <div class="card-head">
       <div class="card-num">1</div>
-      <h3>โครงงานตรวจโรคจากดวงตาด้วยAI</h3>
-      <span class="card-tag">📅 ปีการศึกษา2568</span>
+      <h3>โครงงานตรวจโรคจากดวงตาด้วย AI</h3>
+      <span class="card-tag">📅 ปีการศึกษา 2568</span>
     </div>
     <div class="card-body">
-      <p>โครงงานนี้มีวัตถุประสงค์เพื่อศึกษาการพัฒนาแอปพลิเคชันตรวจคัดกรอง สุขภาพตาผ่านแพลตฟอร์ม Telegram 
-         โดยประเมินประสิทธิภาพในการตรวจ ความผิดปกติของดวงตา การให้คำแนะนำเบื้องต้นและผลของพฤติกรรมการ
-         ใช้อุปกรณ์ดิจิทัลต่อสุขภาพของตา</p>
-      <p>ขั้นตอนการดำเนินงาน
-       1. ตั้งหัวข้อที่ในกลุ่มสนใจและเสนอกับครูผู้สอน
-
-       2.แบ่งหน้าที่ภายในกลุ่มเพื่อรวบรวมข้อมูลเกี่ยวกับโรคทางดวงตาและโปรแกรมที่ต้องการใช้ เนื่องจากแอพพลิเคชั่น
-        ที่ใช้ต้องใช้แชทบอทซึ่งบางแอพเสียเงิน เราจึงเลือกใช้แอพพลิเคชั่น Telegram
-
-      3. ศึกษาวิธีการใช้โปรแกรม Visual Studio Code และแอพพลิเคชั่น Teregram
- 4.เริ่มศึกษาวิธีเขียนโค้ดในโปรแกรม Visual Studio Code แล้วเชื่อมต่อกับแอพพลิเคชั่น Teregram
- 5. สร้างแบบฟอร์มคัดกรองโรคเพื่อเพิ่มความแม่นยำและสร้างแบบประเมินความพึงพอใจ 
-6.ทดสอบโดยทีมพัฒนาและกลุ่มตัวอย่างแล้วปรับปรุงแก้ไขข้อผิดพลาดที่เกิดขึ้น
+      <p>โครงงานนี้มีวัตถุประสงค์เพื่อศึกษาการพัฒนาแอปพลิเคชันตรวจคัดกรองสุขภาพตาผ่านแพลตฟอร์ม Telegram โดยประเมินประสิทธิภาพในการตรวจความผิดปกติของดวงตา การให้คำแนะนำเบื้องต้นและผลของพฤติกรรมการใช้อุปกรณ์ดิจิทัลต่อสุขภาพของตา</p>
+      
+      <p><strong>ขั้นตอนการดำเนินงาน:</strong>
+1. ตั้งหัวข้อที่ในกลุ่มสนใจและเสนอกับครูผู้สอน
+2. แบ่งหน้าที่ภายในกลุ่มเพื่อรวบรวมข้อมูลเกี่ยวกับโรคทางดวงตาและโปรแกรมที่ต้องการใช้ เนื่องจากแอปพลิเคชันที่ใช้ต้องใช้แชทบอทซึ่งบางแอปเสียเงิน เราจึงเลือกใช้แอปพลิเคชัน Telegram
+3. ศึกษาวิธีการใช้โปรแกรม Visual Studio Code และแอปพลิเคชัน Telegram
+4. เริ่มศึกษาวิธีเขียนโค้ดในโปรแกรม Visual Studio Code แล้วเชื่อมต่อกับแอปพลิเคชัน Telegram
+5. สร้างแบบฟอร์มคัดกรองโรคเพื่อเพิ่มความแม่นยำและสร้างแบบประเมินความพึงพอใจ
+6. ทดสอบโดยทีมพัฒนาและกลุ่มตัวอย่างแล้วปรับปรุงแก้ไขข้อผิดพลาดที่เกิดขึ้น
 7. นำเสนอวิธีการใช้งานและเผยแพร่โครงงาน</p>
+
       <div class="detail-grid">
-        <div class="detail-item"><div class="lbl">วิชาที่เกี่ยวข้อง</div><div class="vl">วิชาIS</div></div>
+        <div class="detail-item"><div class="lbl">วิชาที่เกี่ยวข้อง</div><div class="vl">วิชา IS</div></div>
         <div class="detail-item"><div class="lbl">ระยะเวลา</div><div class="vl">22 สัปดาห์</div></div>
         <div class="detail-item"><div class="lbl">สมาชิกกลุ่ม</div><div class="vl">5 คน</div></div>
-        <div class="detail-item"><div class="lbl">ผลที่ได้รับ</div><div class="vl">1.สามารถใช้Aในการตรวจสอบโรคทางดวงตาเบื้องต้นได้
-
-2.สามารถเรียนรู้การใช้โปรแกรม Visual Studio Code ให้เป็นประโยชน์และต่อยอดได้ 
-3.สามารถอำนวยความสะดวกในการตรวจโรคเบื้องต้น</div></div>
+        <div class="detail-item">
+          <div class="lbl">ผลที่ได้รับ</div>
+          <div class="vl">1. ใช้ AI ตรวจสอบโรคทางดวงตาเบื้องต้นได้
+2. ต่อยอดการใช้งาน Visual Studio Code
+3. อำนวยความสะดวกในการตรวจโรคเบื้องต้น</div>
+        </div>
       </div>
     </div>
   </div>
@@ -382,25 +465,24 @@
   <div class="card">
     <div class="card-head">
       <div class="card-num">2</div>
-      <h3>การฝึกประสบการณ์ที่โรงพยาบาลบ้านบึง/h3>
-      <span class="card-tag">📅 ปีการศึกษา2568</span>
-    </div>
+      <h3>การฝึกประสบการณ์ที่โรงพยาบาลบ้านบึง</h3>
+      <span class="card-tag">📅 ปีการศึกษา 2568</span>
     </div>
     <div class="card-body">
-      >การฝึกประสบการณ์วิชาชีพ(หรือการฝึกงาน)ที่โรงพยาบาลบ้านบึง จังหวัดชลบุรี ถือเป็นโอกาสที่ดีมากสำหรับนักศึกษาในสายการแพทย์และสาธารณสุขครับ 
-เนื่องจากเป็นโรงพยาบาลชุมชน (รพช.) ขนาดกลางที่มีเคสผู้ป่วยค่อนข้างหลากหลาย 
-ทำให้ได้ลงมือปฏิบัติจริงและเรียนรู้ระบบงานสาธารณสุขระดับปฐมภูมิและทุติยภูมิได้อย่างครอบคลุม
-
-</p>
+      <p>การฝึกประสบการณ์วิชาชีพ (หรือการฝึกงาน) ที่โรงพยาบาลบ้านบึง จังหวัดชลบุรี ถือเป็นโอกาสที่ดีมากสำหรับนักเรียนในสายการแพทย์และสาธารณสุข เนื่องจากเป็นโรงพยาบาลชุมชน (รพช.) ขนาดกลางที่มีเคสผู้ป่วยค่อนข้างหลากหลาย ทำให้ได้ลงมือปฏิบัติจริงและเรียนรู้ระบบงานสาธารณสุขระดับปฐมภูมิและทุติยภูมิได้อย่างครอบคลุม</p>
+      
       <div class="detail-grid">
-        <div class="detail-item"><div class="lbl">ประเภท</div><div class="vl">โครงงาน / กิจกรรม</div></div>
-        <div class="detail-item"><div class="lbl">สถานที่</div><div class="vl">โรงเรียน / หน่วยงาน</div></div>
-        <div class="detail-item"><div class="lbl">บทบาทของผม</div><div class="vl">ระบุบทบาท</div></div>
-        <div class="detail-item"><div class="lbl">ผลที่ได้รับ</div><div class="vl">ระบุผลลัพธ์</div></div>
+        <div class="detail-item"><div class="lbl">ประเภท</div><div class="vl">การฝึกประสบการณ์วิชาชีพ</div></div>
+        <div class="detail-item"><div class="lbl">สถานที่</div><div class="vl">โรงพยาบาลบ้านบึง จ.ชลบุรี</div></div>
+        <div class="detail-item"><div class="lbl">บทบาทของผม</div><div class="vl">ผู้ฝึกประสบการณ์แผนกสาธารณสุข/บริการผู้ป่วย</div></div>
+        <div class="detail-item"><div class="lbl">ผลที่ได้รับ</div><div class="vl">เรียนรู้ระบบงานจริงในโรงพยาบาล และพัฒนาทักษะการดูแลผู้ป่วยเบื้องต้น</div></div>
       </div>
     </div>
-<img src="6b8ef8c8-787a-4455-ae9f-3da1de3b1e7d.jpg">
-
+    
+    <div class="card-img-wrap">
+      <img src="6b8ef8c8-787a-4455-ae9f-3da1de3b1e7d.jpg" alt="รูปการฝึกประสบการณ์โรงพยาบาลบ้านบึง">
+    </div>
+  </div>
 
   <!-- ACHIEVEMENTS -->
   <div class="sec-title">
@@ -417,15 +499,14 @@
     <div class="card-body">
       <p>รายการกิจกรรมและเกียรติบัตรที่ได้รับตลอดช่วงการศึกษา</p>
       <div class="badge-row">
-        <div class="badge"><span class="dot">●</span> เกียรติบัตร...</div>
-        <div class="badge"><span class="dot">●</span> รางวัล...</div>
-        <div class="badge"><span class="dot">●</span> กิจกรรม...</div>
-        <div class="badge"><span class="dot">●</span> การแข่งขัน...</div>
-        <div class="badge"><span class="dot">●</span> จิตอาสา...</div>
+        <div class="badge"><span class="dot">●</span> เกียรติบัตรการเข้าร่วมกิจกรรม</div>
+        <div class="badge"><span class="dot">●</span> รางวัลการแข่งขันวิชาการ</div>
+        <div class="badge"><span class="dot">●</span> กิจกรรมจิตอาสาพัฒนาชุมชน</div>
+        <div class="badge"><span class="dot">●</span> การอบรมปฐมพยาบาลเบื้องต้น</div>
       </div>
       <div class="detail-grid" style="margin-top:18px;">
-        <div class="detail-item"><div class="lbl">ปีที่ได้รับ</div><div class="vl">ระบุปีการศึกษา</div></div>
-        <div class="detail-item"><div class="lbl">หน่วยงานที่มอบ</div><div class="vl">ระบุหน่วยงาน</div></div>
+        <div class="detail-item"><div class="lbl">ปีที่ได้รับ</div><div class="vl">2567 - 2568</div></div>
+        <div class="detail-item"><div class="lbl">หน่วยงานที่มอบ</div><div class="vl">โรงเรียน / หน่วยงานสาธารณสุข</div></div>
       </div>
     </div>
   </div>
@@ -437,6 +518,58 @@
   <strong>ชนาธิป จึงสงวนสิทธิ์</strong> · แฟ้มสะสมงาน · GitHub Pages
 </footer>
 
+<script>
+  function createLeaves() {
+    const container = document.getElementById('leafContainer');
+    const leafCount = 10;
+    const sizes = ['small', 'medium', 'large'];
+
+    const leafTypes = [
+      `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="leafGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3d724d"/>
+            <stop offset="50%" stop-color="#699f53"/>
+            <stop offset="100%" stop-color="#93c473"/>
+          </linearGradient>
+        </defs>
+        <path d="M15,85 C20,55 45,25 85,15 C75,55 45,80 15,85 Z" fill="url(#leafGrad1)" opacity="0.92"/>
+        <path d="M15,85 C35,60 55,40 85,15" stroke="#1e3e29" stroke-width="2" stroke-linecap="round"/>
+      </svg>`,
+      `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="leafGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#2a5237"/>
+            <stop offset="60%" stop-color="#5b8f46"/>
+            <stop offset="100%" stop-color="#a3d381"/>
+          </linearGradient>
+        </defs>
+        <path d="M25,85 Q45,65 50,50" stroke="#1f3825" stroke-width="3" stroke-linecap="round"/>
+        <path d="M35,68 C20,50 15,30 20,15 C38,20 45,40 35,68 Z" fill="url(#leafGrad2)" opacity="0.9"/>
+        <path d="M48,52 C65,45 80,45 90,30 C85,50 68,65 48,52 Z" fill="url(#leafGrad2)" opacity="0.95"/>
+      </svg>`
+    ];
+
+    for (let i = 0; i < leafCount; i++) {
+      const leaf = document.createElement('div');
+      const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
+      leaf.classList.add('leaf', randomSize);
+      leaf.innerHTML = leafTypes[Math.floor(Math.random() * leafTypes.length)];
+
+      const startRight = (Math.random() * 20 - 5); 
+      leaf.style.right = startRight + 'vw';
+      leaf.style.top = (Math.random() * -100 - 40) + 'px';
+
+      const duration = (Math.random() * 6 + 8);
+      leaf.style.animationDuration = duration + 's';
+      leaf.style.animationDelay = (Math.random() * 10) + 's';
+
+      container.appendChild(leaf);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', createLeaves);
+</script>
+
 </body>
 </html>
-
