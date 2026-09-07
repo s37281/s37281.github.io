@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ประวัติส่วนตัว — ชนาธิป จึงสงวนสิทธิ์</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Noto+Serif+Thai:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-dark: #2d5b3e;
+    --green-mid: #487859;
+    --green-light: #97c47c;
+    --bg-sage: #e1eae0;
+    --box-bg: #eaf1e8;
+    --text-dark: #1f2e23;
+    --white: #ffffff;
+    --shadow: 0 4px 18px rgba(45,91,62,0.1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background: var(--bg-sage);
+    color: var(--text-dark);
+    min-height: 100vh;
+    padding-bottom: 60px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ─── S-CURVE FALLING LEAVES (เอฟเฟกต์ใบไม้ร่วง) ─── */
+  .leaf-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+  }
+
+  .leaf {
+    position: absolute;
+    top: -120px;
+    opacity: 0;
+    pointer-events: none;
+    animation: sCurveFall linear infinite;
+    filter: drop-shadow(3px 6px 10px rgba(0,0,0,0.12));
+  }
+
+  .leaf.small { width: 45px; height: 45px; }
+  .leaf.medium { width: 75px; height: 75px; }
+  .leaf.large { width: 110px; height: 110px; }
+
+  @keyframes sCurveFall {
+    0% {
+      transform: translate(0, 0) rotate(0deg) scale(0.9);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.9;
+    }
+    30% {
+      transform: translate(-40vw, 30vh) rotate(45deg) scale(1.05);
+    }
+    55% {
+      transform: translate(-48vw, 60vh) rotate(-20deg) scale(1);
+    }
+    80% {
+      transform: translate(-90vw, 88vh) rotate(70deg) scale(0.95);
+      opacity: 0.9;
+    }
+    100% {
+      transform: translate(-120vw, 115vh) rotate(130deg) scale(0.85);
+      opacity: 0;
+    }
+  }
+
+  /* ─── TOP STRIPE & NAV ─── */
+  .top-stripe {
+    background: var(--green-dark);
+    height: 5px;
+    position: relative;
+    z-index: 10;
+  }
+
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid #c8d6c5;
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(45,91,62,0.08);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--green-dark);
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: #556b58;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--green-dark); }
+
+  /* ─── CONTAINER ─── */
+  main {
+    max-width: 860px;
+    margin: 40px auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* PAGE HEADER */
+  .page-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .page-header h1 {
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 2rem;
+    color: var(--green-dark);
+    margin-bottom: 8px;
+    position: relative;
+    display: inline-block;
+  }
+  .page-header h1::after {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 3px;
+    background: var(--green-light);
+    margin: 6px auto 0;
+    border-radius: 2px;
+  }
+
+  /* PROFILE LAYOUT GRID */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  /* IMAGE BOX */
+  .profile-img-card {
+    background: var(--white);
+    border: 1px solid #c8d6c5;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .img-container {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--box-bg);
+    border-radius: 12px;
+    border: 1px solid #c8d6c5;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .img-container .empty-notice {
+    color: #6b826e;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 16px;
+  }
+
+  /* CONTENT SECTIONS */
+  .profile-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .info-card {
+    background: var(--white);
+    border: 1px solid #c8d6c5;
+    border-left: 5px solid var(--green-dark);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+
+  .info-card h2 {
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 1.2rem;
+    color: var(--green-dark);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px dashed #c8d6c5;
+    padding-bottom: 10px;
+  }
+
+  .info-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+  }
+
+  .info-item {
+    background: var(--box-bg);
+    border: 1px solid #c0d3bd;
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
+  .info-item.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .info-item .label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .info-item .value {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    font-weight: 600;
+  }
+
+  /* ─── BUTTONS ─── */
+  .btn-wrap {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .btn-nav-portfolio {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green-light);
+    color: var(--text-dark);
+    border: 1px solid var(--text-dark);
+    padding: 12px 32px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  }
+  .btn-nav-portfolio:hover {
+    background: #87b86c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--green-dark);
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    padding: 20px 16px;
+    font-size: 0.85rem;
+    margin-top: 60px;
+    position: relative;
+    z-index: 10;
+  }
+
+  @media (max-width: 768px) {
+    .profile-grid {
+      grid-template-columns: 1fr;
+    }
+    .profile-img-card {
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    main { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-stripe"></div>
+
+<!-- คอนเทนเนอร์แสดงใบไม้ร่วง -->
+<div class="leaf-container" id="leafContainer"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    🌱 ประวัติส่วนตัว
+  </div>
+  <div class="nav-links">
+    <a href="portfolio.html">แฟ้มสะสมผลงาน →</a>
+  </div>
+</nav>
+
+<main>
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>ประวัติส่วนตัว</h1>
+  </div>
+
+  <div class="profile-grid">
+    <!-- PROFILE IMAGE AREA -->
+    <div class="profile-img-card">
+      <div class="img-container">
+        <!-- ใส่ชื่อไฟล์รูปภาพโปรไฟล์ของคุณตรงนี้ -->
+        <img src="profile.jpg" alt="รูปโปรไฟล์ ชนาธิป" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <div class="empty-notice" style="display:none;">📷 ใส่รูปภาพโปรไฟล์ตรงนี้<br><small>(ระบุชื่อไฟล์ใน src="profile.jpg")</small></div>
+      </div>
+    </div>
+
+    <!-- PROFILE DETAILS -->
+    <div class="profile-content">
+
+      <!-- ข้อมูลส่วนตัว -->
+      <div class="info-card">
+        <h2>👤 ข้อมูลส่วนตัว</h2>
+        <div class="info-list">
+          <div class="info-item full-width">
+            <div class="label">ชื่อ-สกุล</div>
+            <div class="value">นายชนาธิป จึงสงวนสิทธิ์</div>
+          </div>
+          <div class="info-item">
+            <div class="label">วันเกิด</div>
+            <div class="value">31 ตุลาคม 2551</div>
+          </div>
+          <div class="info-item">
+            <div class="label">อายุ</div>
+            <div class="value">17 ปี</div>
+          </div>
+          <div class="info-item">
+            <div class="label">สัญชาติ</div>
+            <div class="value">ไทย</div>
+          </div>
+          <div class="info-item">
+            <div class="label">ศาสนา</div>
+            <div class="value">พุทธ</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ข้อมูลการติดต่อ -->
+      <div class="info-card">
+        <h2>📞 ข้อมูลการติดต่อ</h2>
+        <div class="info-list">
+          <div class="info-item">
+            <div class="label">เบอร์โทรศัพท์</div>
+            <div class="value">096-932-4350</div>
+          </div>
+          <div class="info-item">
+            <div class="label">อีเมล</div>
+            <div class="value" style="font-size:0.85rem; word-break:break-all;">chanathip.xingthongheng@gmail.com</div>
+          </div>
+          <div class="info-item full-width">
+            <div class="label">ที่อยู่</div>
+            <div class="value">93/237 หมู่ 1 ต.บ้านบึง อ.บ้านบึง จ.ชลบุรี</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BUTTON TO PORTFOLIO -->
+  <div class="btn-wrap">
+    <a href="portfolio.html" class="btn-nav-portfolio">ไปยังแฟ้มสะสมผลงาน ---></a>
+  </div>
+</main>
+
+<footer>
+  <strong>ชนาธิป จึงสงวนสิทธิ์</strong> · ประวัติส่วนตัว · GitHub Pages
+</footer>
+
+<script>
+  function createLeaves() {
+    const container = document.getElementById('leafContainer');
+    const leafCount = 12;
+    const sizes = ['small', 'medium', 'large'];
+
+    const leafTypes = [
+      `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="leafGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3d724d"/>
+            <stop offset="50%" stop-color="#699f53"/>
+            <stop offset="100%" stop-color="#93c473"/>
+          </linearGradient>
+        </defs>
+        <path d="M15,85 C20,55 45,25 85,15 C75,55 45,80 15,85 Z" fill="url(#leafGrad1)" opacity="0.92"/>
+        <path d="M15,85 C35,60 55,40 85,15" stroke="#1e3e29" stroke-width="2" stroke-linecap="round"/>
+        <path d="M35,63 C42,58 50,57 55,58" stroke="#1e3e29" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M48,48 C57,42 65,42 72,44" stroke="#1e3e29" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M30,69 C32,75 36,80 42,82" stroke="#1e3e29" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>`,
+      
+      `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="leafGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#2a5237"/>
+            <stop offset="60%" stop-color="#5b8f46"/>
+            <stop offset="100%" stop-color="#a3d381"/>
+          </linearGradient>
+        </defs>
+        <path d="M25,85 Q45,65 50,50" stroke="#1f3825" stroke-width="3" stroke-linecap="round"/>
+        <path d="M35,68 C20,50 15,30 20,15 C38,20 45,40 35,68 Z" fill="url(#leafGrad2)" opacity="0.9"/>
+        <path d="M48,52 C65,45 80,45 90,30 C85,50 68,65 48,52 Z" fill="url(#leafGrad2)" opacity="0.95"/>
+        <path d="M42,60 C38,35 50,20 75,20 C70,42 58,58 42,60 Z" fill="url(#leafGrad2)" opacity="0.88"/>
+      </svg>`
+    ];
+
+    for (let i = 0; i < leafCount; i++) {
+      const leaf = document.createElement('div');
+      
+      const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
+      leaf.classList.add('leaf', randomSize);
+
+      const randomType = leafTypes[Math.floor(Math.random() * leafTypes.length)];
+      leaf.innerHTML = randomType;
+
+      const startRight = (Math.random() * 20 - 5); 
+      leaf.style.right = startRight + 'vw';
+      leaf.style.top = (Math.random() * -100 - 40) + 'px';
+
+      const duration = (Math.random() * 6 + 8);
+      leaf.style.animationDuration = duration + 's';
+      
+      leaf.style.animationDelay = (Math.random() * 10) + 's';
+
+      container.appendChild(leaf);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', createLeaves);
+</script>
+
+</body>
+</html>
+
