@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>กิจกรรม — ชนาธิป จึงสงวนสิทธิ์</title>
+<title>เกียรติบัตร 01 — ชนาธิป จึงสงวนสิทธิ์</title>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Noto+Serif+Thai:wght@600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,6 +25,7 @@
     color: var(--text-dark);
     min-height: 100vh;
     padding-bottom: 60px;
+    position: relative;
   }
 
   .top-stripe {
@@ -32,7 +33,7 @@
     height: 5px;
   }
 
-  /* NAV */
+  /* NAV & LINKS (กำหนด z-index และ pointer-events ป้องกันปุ่มกดไม่ติด) */
   nav {
     background: var(--white);
     border-bottom: 1px solid #c8d6c5;
@@ -53,12 +54,19 @@
     font-size: 0.95rem;
     color: var(--green-dark);
   }
+  .nav-links {
+    display: flex;
+    gap: 16px;
+  }
   .nav-links a {
     text-decoration: none;
     color: #556b58;
     font-size: 0.9rem;
     font-weight: 600;
     transition: color 0.2s;
+    position: relative;
+    z-index: 101;
+    pointer-events: auto;
   }
   .nav-links a:hover { color: var(--green-dark); }
 
@@ -67,9 +75,11 @@
     max-width: 900px;
     margin: 40px auto;
     padding: 0 24px;
+    position: relative;
+    z-index: 10;
   }
 
-  /* PAGE TITLE HEADER */
+  /* PAGE HEADER */
   .page-header {
     text-align: center;
     margin-bottom: 36px;
@@ -115,7 +125,7 @@
     box-shadow: 0 8px 24px rgba(45,91,62,0.15);
   }
 
-  /* IMAGE PLACEHOLDER WRAPPER */
+  /* IMAGE PLACEHOLDER WRAPPER & ERROR HANDLING */
   .img-placeholder {
     width: 100%;
     height: 200px;
@@ -139,6 +149,9 @@
     text-align: center;
     padding: 10px;
     display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
   }
 
   /* CARD CONTENT */
@@ -175,27 +188,51 @@
     color: var(--text-dark);
   }
 
-  /* BACK BUTTON */
-  .btn-back-wrap {
-    text-align: center;
+  /* NAVIGATION BUTTONS (ย้อนกลับ / ถัดไป) */
+  .btn-nav-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
     margin-top: 40px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 20;
   }
-  .btn-back {
+  .btn-nav {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    background: var(--green-light);
-    color: var(--text-dark);
-    border: 1px solid var(--text-dark);
-    padding: 12px 30px;
+    padding: 12px 26px;
     border-radius: 30px;
     text-decoration: none;
     font-weight: 600;
     font-size: 0.95rem;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    pointer-events: auto;
+    position: relative;
+    z-index: 25;
   }
-  .btn-back:hover {
+  .btn-nav.primary {
+    background: var(--green-light);
+    color: var(--text-dark);
+    border: 1px solid var(--text-dark);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  }
+  .btn-nav.primary:hover {
     background: #87b86c;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+  }
+  .btn-nav.secondary {
+    background: var(--white);
+    color: var(--green-dark);
+    border: 1px solid #c8d6c5;
+  }
+  .btn-nav.secondary:hover {
+    background: var(--box-bg);
     transform: translateY(-2px);
   }
 
@@ -207,11 +244,15 @@
     padding: 20px 16px;
     font-size: 0.85rem;
     margin-top: 60px;
+    position: relative;
+    z-index: 10;
   }
 
   @media (max-width: 600px) {
     main { padding: 0 16px; }
     .activities-grid { grid-template-columns: 1fr; }
+    .btn-nav-wrap { flex-direction: column; width: 100%; }
+    .btn-nav { width: 100%; }
   }
 </style>
 </head>
@@ -219,20 +260,21 @@
 
 <div class="top-stripe"></div>
 
-<!-- NAV -->
+<!-- NAV MENU -->
 <nav>
   <div class="nav-logo">
     🌱 แฟ้มสะสมผลงาน
   </div>
   <div class="nav-links">
-    <a href="index.html">← หน้าแรก</a>
+    <a href="portfolio.html">← หน้าหลัก (Portfolio)</a>
+    <a href="เกียรติบัตร02.html">เกียรติบัตร 02 →</a>
   </div>
 </nav>
 
 <main>
   <!-- PAGE HEADER -->
   <div class="page-header">
-    <h1>กิจกรรม</h1>
+    <h1>เกียรติบัตร 01</h1>
   </div>
 
   <!-- ACTIVITIES GRID -->
@@ -241,21 +283,24 @@
     <!-- กิจกรรมที่ 1 -->
     <div class="activity-card">
       <div class="img-placeholder">
-        <img src="1788817966066.jpg" alt="รูปกิจกรรมที่ 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="empty-notice">ไม่พบไฟล์รูปภาพ</div>
+        <img src="1788817966066.jpg" alt="รูปกิจกรรมที่ 1" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="empty-notice">
+             </div>
       </div>
       <div class="card-body">
         <span class="badge-level">มัธยมศึกษาปีที่ 4</span>
         <h2 class="act-title">กิจกรรมที่ 1</h2>
         <p class="act-desc">ได้รับการอบรมเชิงปฏิบัติการเสริมสร้างความปลอดภัยในสถานศึกษา ตามโครงการฝึกอบรมการดับเพลิงและการฝึกซ้อมอพยพหนีไฟในสถานศึกษา ประจำปีการศึกษา ๒๕๖๗</p>
-      </div>
+      
     </div>
 
     <!-- กิจกรรมที่ 2 -->
     <div class="activity-card">
       <div class="img-placeholder">
-        <img src="1788817990741.jpg" alt="รูปกิจกรรมที่ 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="empty-notice">ไม่พบไฟล์รูปภาพ</div>
+        <img src="1788817990741.jpg" alt="รูปกิจกรรมที่ 2" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="empty-notice">
+     
+        
       </div>
       <div class="card-body">
         <span class="badge-level">มัธยมศึกษาปีที่ 5</span>
@@ -264,11 +309,12 @@
       </div>
     </div>
 
-    <!-- กิจกรรมที่ 3 -->
-    <div class="activity-card">
-      <div class="img-placeholder">
-        <img src="1788817996989.jpg" alt="รูปกิจกรรมที่ 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="empty-notice">ไม่พบไฟล์รูปภาพ</div>
+    <!-- กิจกรร   <div class="img-placeholder">
+        <img src="1788817996989.jpg" alt="รูปกิจกรรมที่ 3" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="empty-notice">
+        
+     
+    
       </div>
       <div class="card-body">
         <span class="badge-level">มัธยมศึกษาปีที่ 5</span>
@@ -279,14 +325,15 @@
 
   </div>
 
-  <!-- BACK BUTTON (อัปเดตลิงก์ไปยัง เกียรติบัตร02.html) -->
-  <div class="btn-back-wrap">
-    <a href="เกียรติบัตร02.html" class="btn-back">← กลับไปหน้าเกียรติบัตร 02</a>
+  <!-- NAVIGATION BUTTONS -->
+  <div class="btn-nav-wrap">
+    <a href="portfolio.html" class="btn-nav secondary">← กลับหน้าหลัก (portfolio.html)</a>
+    <a href="เกียรติบัตร02.html" class="btn-nav primary">ไปยัง เกียรติบัตร 02 →</a>
   </div>
 </main>
 
 <footer>
-  <strong>ชนาธิป จึงสงวนสิทธิ์</strong> · แฟ้มสะสมงาน · กิจกรรม
+  <strong>ชนาธิป จึงสงวนสิทธิ์</strong> · แฟ้มสะสมงาน · เกียรติบัตร 01
 </footer>
 
 </body>
