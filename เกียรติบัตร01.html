@@ -3,10 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>เกียรติบัตร 01 — ชนาธิป จึงสงวนสิทธิ์</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Noto+Serif+Thai:wght@600;700&display=swap" rel="stylesheet">
+
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
   :root {
     --green-dark: #2d5b3e;
@@ -25,7 +32,6 @@
     color: var(--text-dark);
     min-height: 100vh;
     padding-bottom: 60px;
-    position: relative;
   }
 
   .top-stripe {
@@ -33,7 +39,7 @@
     height: 5px;
   }
 
-  /* NAV & NAVIGATION LINKS */
+  /* NAV */
   nav {
     background: var(--white);
     border-bottom: 1px solid #c8d6c5;
@@ -46,6 +52,7 @@
     z-index: 100;
     box-shadow: 0 2px 10px rgba(45,91,62,0.08);
   }
+
   .nav-logo {
     display: flex;
     align-items: center;
@@ -54,45 +61,46 @@
     font-size: 0.95rem;
     color: var(--green-dark);
   }
+
   .nav-links {
     display: flex;
     gap: 16px;
     align-items: center;
   }
+
   .nav-links a {
     text-decoration: none;
     color: #556b58;
     font-size: 0.88rem;
     font-weight: 600;
     transition: color 0.2s;
-    position: relative;
-    z-index: 101;
-    pointer-events: auto;
   }
-  .nav-links a:hover { color: var(--green-dark); }
 
-  /* CONTAINER */
+  .nav-links a:hover {
+    color: var(--green-dark);
+  }
+
+  /* MAIN */
   main {
     max-width: 900px;
     margin: 40px auto;
     padding: 0 24px;
-    position: relative;
-    z-index: 10;
   }
 
-  /* PAGE HEADER */
+  /* HEADER */
   .page-header {
     text-align: center;
     margin-bottom: 36px;
   }
+
   .page-header h1 {
     font-family: 'Noto Serif Thai', serif;
     font-size: 2rem;
     color: var(--green-dark);
     margin-bottom: 8px;
-    position: relative;
     display: inline-block;
   }
+
   .page-header h1::after {
     content: '';
     display: block;
@@ -103,14 +111,14 @@
     border-radius: 2px;
   }
 
-  /* CERTIFICATES GRID */
+  /* GRID */
   .cert-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     gap: 24px;
   }
 
-  /* CERTIFICATE CARD */
+  /* CARD */
   .cert-card {
     background: var(--white);
     border: 1px solid #c8d6c5;
@@ -121,12 +129,13 @@
     flex-direction: column;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
+
   .cert-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(45,91,62,0.15);
   }
 
-  /* IMAGE WRAPPER & ERROR HANDLING */
+  /* IMAGE */
   .img-wrapper {
     width: 100%;
     height: 200px;
@@ -138,24 +147,27 @@
     justify-content: center;
     overflow: hidden;
   }
+
+  .img-wrapper a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
   .img-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-  .img-wrapper .empty-notice {
-    color: #6b826e;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-align: center;
-    padding: 10px;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
+    display: block;
+    transition: transform 0.3s ease;
   }
 
-  /* CARD CONTENT */
+  .img-wrapper img:hover {
+    transform: scale(1.04);
+  }
+
+  /* CARD BODY */
   .card-body {
     padding: 20px;
     display: flex;
@@ -189,7 +201,7 @@
     color: var(--text-dark);
   }
 
-  /* NAVIGATION BUTTONS */
+  /* BUTTONS */
   .btn-nav-wrap {
     display: flex;
     justify-content: center;
@@ -197,9 +209,8 @@
     gap: 12px;
     margin-top: 40px;
     flex-wrap: wrap;
-    position: relative;
-    z-index: 20;
   }
+
   .btn-nav {
     display: inline-flex;
     align-items: center;
@@ -212,35 +223,38 @@
     font-size: 0.92rem;
     transition: all 0.25s ease;
     cursor: pointer;
-    pointer-events: auto;
-    position: relative;
-    z-index: 25;
   }
+
   .btn-nav.home {
     background: var(--green-dark);
     color: var(--white);
     border: 1px solid var(--green-dark);
   }
+
   .btn-nav.home:hover {
     background: #1e3e29;
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   }
+
   .btn-nav.secondary {
     background: var(--white);
     color: var(--green-dark);
     border: 1px solid #c8d6c5;
   }
+
   .btn-nav.secondary:hover {
     background: var(--box-bg);
     transform: translateY(-2px);
   }
+
   .btn-nav.primary {
     background: var(--green-light);
     color: var(--text-dark);
     border: 1px solid var(--text-dark);
     box-shadow: 0 3px 8px rgba(0,0,0,0.08);
   }
+
   .btn-nav.primary:hover {
     background: #87b86c;
     transform: translateY(-2px);
@@ -255,101 +269,211 @@
     padding: 20px 16px;
     font-size: 0.85rem;
     margin-top: 60px;
-    position: relative;
-    z-index: 10;
   }
 
+  /* MOBILE */
   @media (max-width: 680px) {
-    main { padding: 0 16px; }
-    .cert-grid { grid-template-columns: 1fr; }
-    .btn-nav-wrap { flex-direction: column; width: 100%; }
-    .btn-nav { width: 100%; }
+
+    nav {
+      padding: 12px 16px;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .nav-links {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    main {
+      padding: 0 16px;
+    }
+
+    .cert-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .btn-nav-wrap {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .btn-nav {
+      width: 100%;
+    }
   }
 </style>
 </head>
+
 <body>
 
 <div class="top-stripe"></div>
 
 <!-- NAV MENU -->
 <nav>
+
   <div class="nav-logo">
     🌱 แฟ้มสะสมผลงาน
   </div>
+
   <div class="nav-links">
     <a href="index.html">🏠 หน้าแรก</a>
     <a href="portfolio.html">Portfolio</a>
     <a href="เกียรติบัตร02.html">เกียรติบัตร 02 →</a>
   </div>
+
 </nav>
 
+
 <main>
+
   <!-- PAGE HEADER -->
   <div class="page-header">
     <h1>เกียรติบัตร 01</h1>
   </div>
 
+
   <!-- CERTIFICATES GRID -->
   <div class="cert-grid">
 
+
     <!-- เกียรติบัตรที่ 1 -->
     <div class="cert-card">
+
       <div class="img-wrapper">
-        <img src="1788817966066.jpg" alt="รูปเกียรติบัตรที่ 1" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="empty-notice">
-    
-        </div>
+
+        <!-- กดรูปเพื่อเปิดภาพเต็ม -->
+        <a href="1788817966066.jpg" target="_blank">
+
+          <img
+            src="1788817966066.jpg"
+            alt="รูปเกียรติบัตรที่ 1"
+          >
+
+        </a>
+
       </div>
+
       <div class="card-body">
-        <span class="badge-level">มัธยมศึกษาปีที่ 4</span>
-        <h2 class="cert-title">เกียรติบัตรที่ 1</h2>
-        <p class="cert-desc">ได้รับการอบรมเชิงปฏิบัติการเสริมสร้างความปลอดภัยในสถานศึกษา ตามโครงการฝึกอบรมการดับเพลิงและการฝึกซ้อมอพยพหนีไฟในสถานศึกษา ประจำปีการศึกษา ๒๕๖๗</p>
-     
+
+        <span class="badge-level">
+          มัธยมศึกษาปีที่ 4
+        </span>
+
+        <h2 class="cert-title">
+          เกียรติบัตรที่ 1
+        </h2>
+
+        <p class="cert-desc">
+          ได้รับการอบรมเชิงปฏิบัติการเสริมสร้างความปลอดภัยในสถานศึกษา
+          ตามโครงการฝึกอบรมการดับเพลิงและการฝึกซ้อมอพยพหนีไฟในสถานศึกษา
+          ประจำปีการศึกษา ๒๕๖๗
+        </p>
+
+      </div>
+
     </div>
+
 
     <!-- เกียรติบัตรที่ 2 -->
     <div class="cert-card">
+
       <div class="img-wrapper">
-        <img src="1788817990741.jpg" alt="รูปเกียรติบัตรที่ 2" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="empty-notice">
-          
+
+        <a href="1788817990741.jpg" target="_blank">
+
+          <img
+            src="1788817990741.jpg"
+            alt="รูปเกียรติบัตรที่ 2"
+          >
+
+        </a>
+
       </div>
+
       <div class="card-body">
-        <span class="badge-level">มัธยมศึกษาปีที่ 5</span>
-        <h2 class="cert-title">เกียรติบัตรที่ 2</h2>
-        <p class="cert-desc">ได้ผ่านการเรียนและทดสอบตามเกณฑ์ที่กำหนดของหลักสูตรต้านทุจริตศึกษา</p>
+
+        <span class="badge-level">
+          มัธยมศึกษาปีที่ 5
+        </span>
+
+        <h2 class="cert-title">
+          เกียรติบัตรที่ 2
+        </h2>
+
+        <p class="cert-desc">
+          ได้ผ่านการเรียนและทดสอบตามเกณฑ์ที่กำหนดของหลักสูตรต้านทุจริตศึกษา
+        </p>
+
       </div>
+
     </div>
+
 
     <!-- เกียรติบัตรที่ 3 -->
     <div class="cert-card">
+
       <div class="img-wrapper">
-        <img src="1788817996989.jpg" alt="รูปเกียรติบัตรที่ 3" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="empty-notice"
-        
-        
+
+        <a href="1788817996989.jpg" target="_blank">
+
+          <img
+            src="1788817996989.jpg"
+            alt="รูปเกียรติบัตรที่ 3"
+          >
+
+        </a>
+
       </div>
+
       <div class="card-body">
-        <span class="badge-level">มัธยมศึกษาปีที่ 5</span>
-        <h2 class="cert-title">เกียรติบัตรที่ 3</h2>
-        <p class="cert-desc">เข้าร่วมการแข่งขันประกวดคำขวัญต่อต้านการทุจริต ระดับชั้นมัธยมศึกษาตอนปลาย</p>
+
+        <span class="badge-level">
+          มัธยมศึกษาปีที่ 5
+        </span>
+
+        <h2 class="cert-title">
+          เกียรติบัตรที่ 3
+        </h2>
+
+        <p class="cert-desc">
+          เข้าร่วมการแข่งขันประกวดคำขวัญต่อต้านการทุจริต
+          ระดับชั้นมัธยมศึกษาตอนปลาย
+        </p>
+
       </div>
+
     </div>
 
+
   </div>
+
 
   <!-- NAVIGATION BUTTONS -->
   <div class="btn-nav-wrap">
-    <a href="index.html" class="btn-nav home">🏠 กลับหน้าแรก (index.html)</a>
-    <a href="portfolio.html" class="btn-nav secondary">← หน้า Portfolio</a>
-    <a href="เกียรติบัตร02.html" class="btn-nav primary">ไปยัง เกียรติบัตร 02 →</a>
+
+    <a href="index.html" class="btn-nav home">
+      🏠 กลับหน้าแรก
+    </a>
+
+    <a href="portfolio.html" class="btn-nav secondary">
+      ← หน้า Portfolio
+    </a>
+
+    <a href="เกียรติบัตร02.html" class="btn-nav primary">
+      ไปยัง เกียรติบัตร 02 →
+    </a>
+
   </div>
+
 </main>
 
+
 <footer>
-  <strong>ชนาธิป จึงสงวนสิทธิ์</strong> · แฟ้มสะสมงาน · เกียรติบัตร 01
+  <strong>ชนาธิป จึงสงวนสิทธิ์</strong>
+  · แฟ้มสะสมงาน · เกียรติบัตร 01
 </footer>
 
 </body>
 </html>
-
