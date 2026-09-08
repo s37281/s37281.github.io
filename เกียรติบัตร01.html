@@ -33,7 +33,7 @@
     height: 5px;
   }
 
-  /* NAV & LINKS (กำหนด z-index และ pointer-events ป้องกันปุ่มกดไม่ติด) */
+  /* NAV & LINKS */
   nav {
     background: var(--white);
     border-bottom: 1px solid #c8d6c5;
@@ -57,11 +57,12 @@
   .nav-links {
     display: flex;
     gap: 16px;
+    align-items: center;
   }
   .nav-links a {
     text-decoration: none;
     color: #556b58;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 600;
     transition: color 0.2s;
     position: relative;
@@ -188,12 +189,12 @@
     color: var(--text-dark);
   }
 
-  /* NAVIGATION BUTTONS (ย้อนกลับ / ถัดไป) */
+  /* NAVIGATION BUTTONS */
   .btn-nav-wrap {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     margin-top: 40px;
     flex-wrap: wrap;
     position: relative;
@@ -204,16 +205,35 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 12px 26px;
+    padding: 11px 22px;
     border-radius: 30px;
     text-decoration: none;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     transition: all 0.25s ease;
     cursor: pointer;
     pointer-events: auto;
     position: relative;
     z-index: 25;
+  }
+  .btn-nav.home {
+    background: var(--green-dark);
+    color: var(--white);
+    border: 1px solid var(--green-dark);
+  }
+  .btn-nav.home:hover {
+    background: #1e3e29;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .btn-nav.secondary {
+    background: var(--white);
+    color: var(--green-dark);
+    border: 1px solid #c8d6c5;
+  }
+  .btn-nav.secondary:hover {
+    background: var(--box-bg);
+    transform: translateY(-2px);
   }
   .btn-nav.primary {
     background: var(--green-light);
@@ -225,15 +245,6 @@
     background: #87b86c;
     transform: translateY(-2px);
     box-shadow: 0 5px 12px rgba(0,0,0,0.12);
-  }
-  .btn-nav.secondary {
-    background: var(--white);
-    color: var(--green-dark);
-    border: 1px solid #c8d6c5;
-  }
-  .btn-nav.secondary:hover {
-    background: var(--box-bg);
-    transform: translateY(-2px);
   }
 
   /* FOOTER */
@@ -248,7 +259,7 @@
     z-index: 10;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 680px) {
     main { padding: 0 16px; }
     .activities-grid { grid-template-columns: 1fr; }
     .btn-nav-wrap { flex-direction: column; width: 100%; }
@@ -266,7 +277,8 @@
     🌱 แฟ้มสะสมผลงาน
   </div>
   <div class="nav-links">
-    <a href="portfolio.html">← หน้าหลัก (Portfolio)</a>
+    <a href="index.html">🏠 หน้าแรก</a>
+    <a href="portfolio.html">Portfolio</a>
     <a href="เกียรติบัตร02.html">เกียรติบัตร 02 →</a>
   </div>
 </nav>
@@ -285,13 +297,15 @@
       <div class="img-placeholder">
         <img src="1788817966066.jpg" alt="รูปกิจกรรมที่ 1" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="empty-notice">
-             </div>
+          <span>📷 ไม่พบไฟล์รูปภาพ</span>
+          <small>(1788817966066.jpg)</small>
+        </div>
       </div>
       <div class="card-body">
         <span class="badge-level">มัธยมศึกษาปีที่ 4</span>
         <h2 class="act-title">กิจกรรมที่ 1</h2>
         <p class="act-desc">ได้รับการอบรมเชิงปฏิบัติการเสริมสร้างความปลอดภัยในสถานศึกษา ตามโครงการฝึกอบรมการดับเพลิงและการฝึกซ้อมอพยพหนีไฟในสถานศึกษา ประจำปีการศึกษา ๒๕๖๗</p>
-      
+      </div>
     </div>
 
     <!-- กิจกรรมที่ 2 -->
@@ -299,8 +313,9 @@
       <div class="img-placeholder">
         <img src="1788817990741.jpg" alt="รูปกิจกรรมที่ 2" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="empty-notice">
-     
-        
+          <span>📷 ไม่พบไฟล์รูปภาพ</span>
+          <small>(1788817990741.jpg)</small>
+        </div>
       </div>
       <div class="card-body">
         <span class="badge-level">มัธยมศึกษาปีที่ 5</span>
@@ -309,12 +324,14 @@
       </div>
     </div>
 
-    <!-- กิจกรร   <div class="img-placeholder">
+    <!-- กิจกรรมที่ 3 -->
+    <div class="activity-card">
+      <div class="img-placeholder">
         <img src="1788817996989.jpg" alt="รูปกิจกรรมที่ 3" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="empty-notice">
-        
-     
-    
+          <span>📷 ไม่พบไฟล์รูปภาพ</span>
+          <small>(1788817996989.jpg)</small>
+        </div>
       </div>
       <div class="card-body">
         <span class="badge-level">มัธยมศึกษาปีที่ 5</span>
@@ -325,9 +342,10 @@
 
   </div>
 
-  <!-- NAVIGATION BUTTONS -->
+  <!-- NAVIGATION BUTTONS (มีปุ่มย้อนกลับไป index.html) -->
   <div class="btn-nav-wrap">
-    <a href="portfolio.html" class="btn-nav secondary">← กลับหน้าหลัก (portfolio.html)</a>
+    <a href="index.html" class="btn-nav home">🏠 กลับหน้าแรก (index.html)</a>
+    <a href="portfolio.html" class="btn-nav secondary">← หน้า Portfolio</a>
     <a href="เกียรติบัตร02.html" class="btn-nav primary">ไปยัง เกียรติบัตร 02 →</a>
   </div>
 </main>
@@ -338,3 +356,4 @@
 
 </body>
 </html>
+
