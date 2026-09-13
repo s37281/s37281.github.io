@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ประวัติการศึกษา - Education</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts (Prompt & Sarabun) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #539871; /* สีพื้นหลังเขียวธีมหลัก */
+        }
+
+        .font-education-sub {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+
+        /* Container สำหรับเอฟเฟกต์วัตถุร่วง (ใบไม้ + เครื่องหมายบวก) */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .falling-item {
+            position: absolute;
+            top: -10%;
+            pointer-events: none;
+            opacity: 0.85;
+            animation: fall-s-curve linear infinite;
+        }
+
+        @keyframes fall-s-curve {
+            0% { transform: translateY(0vh) translateX(0px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.9; }
+            25% { transform: translateY(25vh) translateX(35px) rotate(45deg); }
+            50% { transform: translateY(50vh) translateX(-35px) rotate(110deg); }
+            75% { transform: translateY(75vh) translateX(25px) rotate(180deg); }
+            100% { transform: translateY(105vh) translateX(-15px) rotate(260deg); opacity: 0; }
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.35); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.35); }
+            70% { transform: scale(1); }
+        }
+
+        .heart-beat-anim {
+            animation: heartbeat 0.8s ease-in-out infinite;
+            filter: drop-shadow(0px 0px 8px rgba(239, 68, 68, 0.8));
+        }
+
+        .floating-icon {
+            animation: float-gentle 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes float-gentle {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-12px) rotate(6deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-3 sm:p-6 relative overflow-x-hidden text-slate-800">
+
+    <!-- =================================================== -->
+    <!-- หน้าจอโหลดเข้าเว็บ (Medical ECG Loading Screen) -->
+    <!-- =================================================== -->
+    <div id="preloader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#eef4ed] transition-opacity duration-700">
+        <div class="max-w-xs sm:max-w-sm w-full p-6 text-center flex flex-col items-center">
+            <div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#1f4827]/10 text-[#1f4827]">
+                <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                </svg>
+            </div>
+            <h3 class="text-slate-800 font-bold text-lg mb-1">กำลังดาวน์โหลดข้อมูลการแพทย์</h3>
+            <p id="loading-percent" class="text-3xl font-extrabold text-[#1f4827] mb-6 tracking-wider">0%</p>
+            <div class="relative w-full flex items-center gap-2">
+                <div class="relative flex-1 h-12 bg-white/80 border border-slate-200 rounded-xl overflow-hidden shadow-inner flex items-center px-1">
+                    <svg class="w-full h-8 text-slate-300 stroke-current" preserveAspectRatio="none" viewBox="0 0 300 40" fill="none">
+                        <path d="M0 20 L40 20 L45 15 L50 25 L55 5 L62 35 L68 12 L73 25 L78 20 L120 20 L125 15 L130 25 L135 5 L142 35 L148 12 L153 25 L158 20 L200 20 L205 15 L210 25 L215 5 L222 35 L228 12 L233 25 L238 20 L300 20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div id="ecg-progress-container" class="absolute left-0 top-0 bottom-0 overflow-hidden w-0 transition-all duration-75 flex items-center px-1 bg-[#1f4827]/10">
+                        <svg class="w-full h-8 text-[#1f4827] stroke-current" style="min-width: 100%;" preserveAspectRatio="none" viewBox="0 0 300 40" fill="none">
+                            <path d="M0 20 L40 20 L45 15 L50 25 L55 5 L62 35 L68 12 L73 25 L78 20 L120 20 L125 15 L130 25 L135 5 L142 35 L148 12 L153 25 L158 20 L200 20 L205 15 L210 25 L215 5 L222 35 L228 12 L233 25 L238 20 L300 20" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex-shrink-0">
+                    <svg id="red-heart" class="w-8 h-8 text-slate-300 transition-colors duration-300" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container สำหรับเอฟเฟกต์วัตถุร่วง (ใบไม้ + เครื่องหมายบวก) -->
+    <div id="particles-container"></div>
+
+    <!-- ========================================================== -->
+    <!-- ปุ่มควบคุมย้อนกลับ (กล่องสีขาว ตัวหนังสือสีเขียว) -->
+    <!-- ========================================================== -->
+    <div class="fixed top-4 left-4 z-40 flex gap-2">
+        <a href="portfolio.html" class="flex items-center gap-2 bg-white hover:bg-[#1f4827] text-[#1f4827] hover:text-white font-bold text-sm sm:text-base py-2 px-4 rounded-full shadow-lg border-2 border-[#1f4827] transition-all duration-300 transform hover:scale-105 active:scale-95">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <span>กลับหน้าเมนู</span>
+        </a>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- อุปกรณ์ทางการแพทย์ประดับข้างจอ (Left & Right Side Decor) -->
+    <!-- ========================================================== -->
+    <div class="fixed top-20 left-6 z-30 floating-icon pointer-events-none opacity-80 hidden lg:block">
+        <img src="https://cdn-icons-png.flaticon.com/512/3063/3063183.png" alt="Stethoscope" class="w-16 h-16 drop-shadow-xl transform -rotate-12">
+    </div>
+    <div class="fixed bottom-12 right-6 z-30 floating-icon pointer-events-none opacity-80 hidden lg:block" style="animation-delay: -2s;">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Graduation Cap / Medical" class="w-16 h-16 drop-shadow-xl transform rotate-12">
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- การ์ดหน้าประวัติการศึกษา (Main Education Card - ถอดแบบจาก 501.jpg 100%) -->
+    <!-- =================================================================== -->
+    <main class="relative w-full max-w-2xl bg-[#eaf3ed] rounded-[36px] shadow-2xl overflow-hidden my-6 border-4 border-white/60 p-4 sm:p-8 min-h-[820px] flex flex-col items-center justify-start z-20">
+
+        <!-- แผงสีเขียวหลักด้านใน (Inner Green Container) -->
+        <div class="relative w-full bg-[#529871] rounded-[28px] p-4 sm:p-8 pt-16 sm:pt-20 flex flex-col items-center shadow-inner min-h-[750px]">
+
+            <!-- 1. ป้ายหัวข้อ "ประวัติการศึกษา - Education -" ด้านบนตรงกลาง -->
+            <div class="absolute -top-1 left-1/2 -translate-x-1/2 w-72 sm:w-96 bg-[#1f4827] rounded-b-[36px] shadow-lg py-3 px-4 flex flex-col items-center justify-center z-20 border-b-2 border-x-2 border-white/20">
+                <h1 class="text-white text-2xl sm:text-3xl font-extrabold tracking-wide text-center">
+                    ประวัติการศึกษา
+                </h1>
+                <p class="text-emerald-100 text-lg sm:text-xl font-education-sub mt-0.5 tracking-wider">
+                    - Education -
+                </p>
+            </div>
+
+            <!-- 2. รายการการศึกษา 3 ระดับ (Educational Level Cards) -->
+            <div class="w-full mt-10 sm:mt-12 space-y-6 sm:space-y-8 z-20">
+
+                <!-- การ์ดที่ 1: ระดับประถมศึกษา -->
+                <div class="bg-[#2e5e3b] hover:bg-[#254f30] transition-colors duration-300 rounded-full p-3 sm:p-4 pr-6 flex items-center gap-4 sm:gap-6 shadow-xl border border-white/10">
+                    
+                    <!-- ช่องใส่รูปภาพทรงวงกลม (ใส่ ลิงก์ตรง/URL ของรูปภาพใน src และ href ได้) -->
+                    <a href="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=500&q=80" target="_blank" class="flex-shrink-0 group relative block">
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white overflow-hidden shadow-md bg-[#c2dcc8] flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                            <img 
+                                src="https://i.postimg.cc/66YQWLjw/20020004-0-20140902-013702.jpg" 
+                                alt="รูปโรงเรียนบุญประทีปวิทยาคาร (ประถมศึกษา)" 
+                                class="w-full h-full object-cover"
+                            >
+                        </div>
+                    </a>
+
+                    <!-- ข้อความรายละเอียด -->
+                    <div class="text-white space-y-1">
+                        <h2 class="text-xl sm:text-2xl font-bold tracking-wide">
+                            ระดับประถมศึกษา
+                        </h2>
+                        <p class="text-base sm:text-lg font-medium text-emerald-50 flex items-center gap-1.5">
+                            <span>•</span>
+                            <span>โรงเรียนบุญประทีปวิทยาคาร</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- การ์ดที่ 2: ระดับมัธยมศึกษาตอนต้น -->
+                <div class="bg-[#2e5e3b] hover:bg-[#254f30] transition-colors duration-300 rounded-full p-3 sm:p-4 pr-6 flex items-center gap-4 sm:gap-6 shadow-xl border border-white/10">
+                    
+                    <!-- ช่องใส่รูปภาพทรงวงกลม -->
+                    <a href="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=500&q=80" target="_blank" class="flex-shrink-0 group relative block">
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white overflow-hidden shadow-md bg-[#c2dcc8] flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                            <img 
+                                src="https://i.postimg.cc/66YQWLjw/20020004-0-20140902-013702.jpg" 
+                                alt="รูปโรงเรียนบุญประทีปวิทยาคาร (มัธยมศึกษาตอนต้น)" 
+                                class="w-full h-full object-cover"
+                            >
+                        </div>
+                    </a>
+
+                    <!-- ข้อความรายละเอียด -->
+                    <div class="text-white space-y-1">
+                        <h2 class="text-xl sm:text-2xl font-bold tracking-wide">
+                            ระดับมัธยมศึกษาตอนต้น
+                        </h2>
+                        <p class="text-base sm:text-lg font-medium text-emerald-50 flex items-center gap-1.5">
+                            <span>•</span>
+                            <span>โรงเรียนบุญประทีปวิทยาคาร</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- การ์ดที่ 3: ระดับมัธยมศึกษาตอนปลาย -->
+                <div class="bg-[#2e5e3b] hover:bg-[#254f30] transition-colors duration-300 rounded-full p-3 sm:p-4 pr-6 flex items-center gap-4 sm:gap-6 shadow-xl border border-white/10">
+                    
+                    <!-- ช่องใส่รูปภาพทรงวงกลม -->
+                    <a href="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=500&q=80" target="_blank" class="flex-shrink-0 group relative block">
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white overflow-hidden shadow-md bg-[#c2dcc8] flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                            <img 
+                                src="https://i.postimg.cc/vmFYqPBr/FB-IMG-1789306923230.jpg" 
+                                alt="รูปโรงเรียนบ้านบึงอุตสาหกรรมนุเคราะห์ (มัธยมศึกษาตอนปลาย)" 
+                                class="w-full h-full object-cover"
+                            >
+                        </div>
+                    </a>
+
+                    <!-- ข้อความรายละเอียด -->
+                    <div class="text-white space-y-1">
+                        <h2 class="text-xl sm:text-2xl font-bold tracking-wide">
+                            ระดับมัธยมศึกษาตอนปลาย
+                        </h2>
+                        <p class="text-base sm:text-lg font-medium text-emerald-50 flex items-center gap-1.5">
+                            <span>•</span>
+                            <span>โรงเรียนบ้านบึง"อุตสาหกรรมนุเคราะห์"</span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- จุดสีเขียวประดับเพิ่มเพื่อความสวยงามสมบูรณ์ (Dot Grid Accents) -->
+            <div class="absolute bottom-4 right-4 pointer-events-none opacity-40">
+                <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                    <g fill="#ffffff">
+                        <circle cx="10" cy="10" r="3"/><circle cx="30" cy="10" r="3"/><circle cx="50" cy="10" r="3"/><circle cx="70" cy="10" r="3"/>
+                        <circle cx="10" cy="30" r="3"/><circle cx="30" cy="30" r="3"/><circle cx="50" cy="30" r="3"/><circle cx="70" cy="30" r="3"/>
+                        <circle cx="10" cy="50" r="3"/><circle cx="30" cy="50" r="3"/><circle cx="50" cy="50" r="3"/><circle cx="70" cy="50" r="3"/>
+                        <circle cx="10" cy="70" r="3"/><circle cx="30" cy="70" r="3"/><circle cx="50" cy="70" r="3"/><circle cx="70" cy="70" r="3"/>
+                    </g>
+                </svg>
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- Script ควบคุมระบบ Preloader และแอนิเมชันของตกแต่ง -->
+    <script>
+        // 1. Preloader Control
+        let progress = 0;
+        const percentElement = document.getElementById('loading-percent');
+        const ecgProgress = document.getElementById('ecg-progress-container');
+        const redHeart = document.getElementById('red-heart');
+        const preloader = document.getElementById('preloader');
+
+        const loadInterval = setInterval(() => {
+            progress += Math.floor(Math.random() * 6) + 4;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(loadInterval);
+
+                redHeart.classList.remove('text-slate-300');
+                redHeart.classList.add('text-red-500', 'heart-beat-anim');
+
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    preloader.style.pointerEvents = 'none';
+                    setTimeout(() => { preloader.style.display = 'none'; }, 700);
+                }, 600);
+            }
+            percentElement.textContent = progress + '%';
+            ecgProgress.style.width = progress + '%';
+        }, 35);
+
+        // 2. Falling Leaves & Medical Cross Particles
+        const container = document.getElementById('particles-container');
+        const leafColors = ['#1f4827', '#2e6339', '#689771', '#8db891', '#ffffff'];
+
+        function createParticle(type) {
+            const item = document.createElement('div');
+            item.classList.add('falling-item');
+            item.style.left = Math.random() * 100 + 'vw';
+            
+            const duration = Math.random() * 5 + 6;
+            item.style.animationDuration = duration + 's';
+
+            if (type === 'leaf') {
+                const scale = Math.random() * 0.6 + 0.5;
+                const color = leafColors[Math.floor(Math.random() * leafColors.length)];
+                item.innerHTML = `
+                    <svg width="${26 * scale}" height="${26 * scale}" viewBox="0 0 24 24" fill="${color}">
+                        <path d="M17.2,3C12.5,3 8.3,6.2 7.1,10.7C5.9,15.2 7.8,20 11.8,22C12.1,22.1 12.4,22 12.6,21.8C12.8,21.6 12.9,21.3 12.8,21C12.3,18.8 13.1,16.5 14.8,15C16.5,13.5 18.9,13 21,13.7C21.3,13.8 21.6,13.7 21.8,13.5C22,13.3 22.1,13 22,12.7C21.2,7.1 17.5,3 17.2,3Z"/>
+                    </svg>
+                `;
+            } else {
+                const scale = Math.random() * 0.4 + 0.45;
+                const isWhite = Math.random() > 0.5;
+                const fillColor = isWhite ? '#ffffff' : '#1f4827';
+                const strokeColor = isWhite ? '#1f4827' : '#ffffff';
+                item.innerHTML = `
+                    <svg width="${22 * scale}" height="${22 * scale}" viewBox="0 0 24 24" fill="${fillColor}" stroke="${strokeColor}" stroke-width="1.8">
+                        <path d="M9 2H15V9H22V15H15V22H9V15H2V9H9V2Z" stroke-linejoin="round"/>
+                    </svg>
+                `;
+            }
+
+            container.appendChild(item);
+            setTimeout(() => { item.remove(); }, duration * 1000);
+        }
+
+        for (let i = 0; i < 6; i++) {
+            setTimeout(() => { createParticle(i % 2 === 0 ? 'leaf' : 'cross'); }, i * 600);
+        }
+
+        setInterval(() => {
+            const isCross = Math.random() > 0.45;
+            createParticle(isCross ? 'cross' : 'leaf');
+        }, 1000);
+    </script>
+
+</body>
+</html>
+
