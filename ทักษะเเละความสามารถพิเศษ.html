@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ทักษะ/ความสามารถพิเศษ - Skills</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts (Prompt) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #4a8b63; /* ปรับเป็นสีเขียวสดใสขึ้น สบายตา */
+        }
+
+        /* SVG Clip Path สำหรับทำรูปทรงกรอบรูปที่มีรอยเว้าโค้งมนมุมซ้ายบน (Notched Tab Shape) */
+        .notched-image-shape {
+            clip-path: url(#notch-clip);
+        }
+
+        /* Container สำหรับเอฟเฟกต์วัตถุร่วง */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .falling-item {
+            position: absolute;
+            top: -10%;
+            pointer-events: none;
+            opacity: 0.85;
+            animation: fall-s-curve linear infinite;
+        }
+
+        @keyframes fall-s-curve {
+            0% { transform: translateY(0vh) translateX(0px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.9; }
+            25% { transform: translateY(25vh) translateX(35px) rotate(45deg); }
+            50% { transform: translateY(50vh) translateX(-35px) rotate(110deg); }
+            75% { transform: translateY(75vh) translateX(25px) rotate(180deg); }
+            100% { transform: translateY(105vh) translateX(-15px) rotate(260deg); opacity: 0; }
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.35); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.35); }
+            70% { transform: scale(1); }
+        }
+
+        .heart-beat-anim {
+            animation: heartbeat 0.8s ease-in-out infinite;
+            filter: drop-shadow(0px 0px 8px rgba(239, 68, 68, 0.8));
+        }
+
+        /* แอนิเมชันของประดับทางการแพทย์ลอยขยับเบาๆ */
+        .floating-icon-left {
+            animation: float-gentle-1 4s ease-in-out infinite alternate;
+        }
+        .floating-icon-right {
+            animation: float-gentle-2 4.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes float-gentle-1 {
+            0% { transform: translateY(0px) rotate(-6deg); }
+            100% { transform: translateY(-15px) rotate(6deg); }
+        }
+        @keyframes float-gentle-2 {
+            0% { transform: translateY(0px) rotate(8deg); }
+            100% { transform: translateY(-18px) rotate(-4deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-3 sm:p-6 relative overflow-x-hidden text-slate-800">
+
+    <!-- Definitions สำหรับ SVG Clip-Path รอยเว้าโค้งมนของรูปภาพ (Notched Shape) -->
+    <svg class="absolute w-0 h-0 overflow-hidden" aria-hidden="true">
+        <defs>
+            <clipPath id="notch-clip" clipPathUnits="objectBoundingBox">
+                <path d="M 0.35,0 
+                         H 0.88 A 0.12,0.12 0 0,1 1,0.12 
+                         V 0.88 A 0.12,0.12 0 0,1 0.88,1 
+                         H 0.12 A 0.12,0.12 0 0,1 0,0.88 
+                         V 0.32 A 0.08,0.08 0 0,1 0.08,0.24 
+                         H 0.27 A 0.08,0.08 0 0,0 0.35,0.16 
+                         Z" />
+            </clipPath>
+        </defs>
+    </svg>
+
+    <!-- =================================================== -->
+    <!-- หน้าจอโหลดเข้าเว็บ (Medical ECG Loading Screen) -->
+    <!-- =================================================== -->
+    <div id="preloader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#f0f7f2] transition-opacity duration-700">
+        <div class="max-w-xs sm:max-w-sm w-full p-6 text-center flex flex-col items-center">
+            <div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#2e6843]/10 text-[#2e6843]">
+                <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                </svg>
+            </div>
+            <h3 class="text-slate-800 font-bold text-lg mb-1">กำลังดาวน์โหลดข้อมูลทักษะ</h3>
+            <p id="loading-percent" class="text-3xl font-extrabold text-[#2e6843] mb-6 tracking-wider">0%</p>
+            <div class="relative w-full flex items-center gap-2">
+                <div class="relative flex-1 h-12 bg-white/80 border border-slate-200 rounded-xl overflow-hidden shadow-inner flex items-center px-1">
+                    <svg class="w-full h-8 text-slate-300 stroke-current" preserveAspectRatio="none" viewBox="0 0 300 40" fill="none">
+                        <path d="M0 20 L40 20 L45 15 L50 25 L55 5 L62 35 L68 12 L73 25 L78 20 L120 20 L125 15 L130 25 L135 5 L142 35 L148 12 L153 25 L158 20 L200 20 L205 15 L210 25 L215 5 L222 35 L228 12 L233 25 L238 20 L300 20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div id="ecg-progress-container" class="absolute left-0 top-0 bottom-0 overflow-hidden w-0 transition-all duration-75 flex items-center px-1 bg-[#2e6843]/10">
+                        <svg class="w-full h-8 text-[#2e6843] stroke-current" style="min-width: 100%;" preserveAspectRatio="none" viewBox="0 0 300 40" fill="none">
+                            <path d="M0 20 L40 20 L45 15 L50 25 L55 5 L62 35 L68 12 L73 25 L78 20 L120 20 L125 15 L130 25 L135 5 L142 35 L148 12 L153 25 L158 20 L200 20 L205 15 L210 25 L215 5 L222 35 L228 12 L233 25 L238 20 L300 20" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex-shrink-0">
+                    <svg id="red-heart" class="w-8 h-8 text-slate-300 transition-colors duration-300" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container สำหรับเอฟเฟกต์วัตถุร่วง (ใบไม้ + เครื่องหมายบวก) -->
+    <div id="particles-container"></div>
+
+    <!-- ปุ่มย้อนกลับ -->
+    <div class="fixed top-4 left-4 z-40">
+        <a href="portfolio.html" class="flex items-center gap-2 bg-white hover:bg-[#2e6843] text-[#2e6843] hover:text-white font-bold text-sm sm:text-base py-2 px-4 rounded-full shadow-lg border-2 border-[#2e6843] transition-all duration-300 transform hover:scale-105 active:scale-95">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <span>กลับหน้าเมนู</span>
+        </a>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- อุปกรณ์ทางการแพทย์ประดับข้างซ้ายและขวา (Medical Decor Icons) -->
+    <!-- ========================================================== -->
+    <!-- ข้างซ้าย (Left Side Icons) -->
+    <div class="fixed top-24 left-6 z-30 floating-icon-left pointer-events-none hidden xl:block">
+        <div class="p-3 bg-white/90 rounded-2xl shadow-xl border-2 border-[#b0e292] backdrop-blur-sm">
+            <img src="https://cdn-icons-png.flaticon.com/512/3063/3063183.png" alt="Stethoscope" class="w-14 h-14 drop-shadow">
+        </div>
+    </div>
+    <div class="fixed bottom-20 left-8 z-30 floating-icon-left pointer-events-none hidden xl:block" style="animation-delay: -2s;">
+        <div class="p-3 bg-white/90 rounded-2xl shadow-xl border-2 border-[#b0e292] backdrop-blur-sm">
+            <img src="https://cdn-icons-png.flaticon.com/512/2874/2874780.png" alt="Syringe" class="w-12 h-12 drop-shadow">
+        </div>
+    </div>
+
+    <!-- ข้างขวา (Right Side Icons) -->
+    <div class="fixed top-28 right-6 z-30 floating-icon-right pointer-events-none hidden xl:block">
+        <div class="p-3 bg-white/90 rounded-2xl shadow-xl border-2 border-[#b0e292] backdrop-blur-sm">
+            <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" alt="Medical Kit" class="w-14 h-14 drop-shadow">
+        </div>
+    </div>
+    <div class="fixed bottom-24 right-8 z-30 floating-icon-right pointer-events-none hidden xl:block" style="animation-delay: -1.5s;">
+        <div class="p-3 bg-white/90 rounded-2xl shadow-xl border-2 border-[#b0e292] backdrop-blur-sm">
+            <img src="https://cdn-icons-png.flaticon.com/512/883/883407.png" alt="Pill Bottle" class="w-12 h-12 drop-shadow">
+        </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- การ์ดหลัก ทักษะ/ความสามารถพิเศษ (ปรับสีเขียวสว่างสดใส ถอดแบบ 502.jpg) -->
+    <!-- =================================================================== -->
+    <main class="relative w-full max-w-2xl bg-[#326a48] rounded-[36px] shadow-2xl overflow-hidden my-6 border-4 border-white/40 p-4 sm:p-8 min-h-[840px] flex flex-col justify-between z-20">
+
+        <!-- ------------------------------------------------------------- -->
+        <!-- BACKGROUND DECORATIONS (รูปทรงหกเหลี่ยม และ จุดสีเขียวตามตำแหน่งเดิม) -->
+        <!-- ------------------------------------------------------------- -->
+        <div class="absolute inset-0 pointer-events-none overflow-hidden">
+            <!-- หกเหลี่ยมพื้นหลังซ้ายมือ (ปรับสว่างขึ้น) -->
+            <div class="absolute top-24 -left-12 w-64 h-64 bg-[#418059] opacity-70 transform rotate-12 rounded-3xl"></div>
+            <div class="absolute bottom-12 -left-8 w-48 h-48 bg-[#28573a] opacity-80 transform -rotate-45 rounded-3xl"></div>
+
+            <!-- จุดสีเขียวอ่อน: บนซ้าย (Top Left Dots) -->
+            <div class="absolute top-4 left-4 opacity-85">
+                <div class="grid grid-cols-5 gap-1.5">
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div>
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div>
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div>
+                </div>
+            </div>
+
+            <!-- จุดสีเขียวอ่อน: บนขวา (Top Right Dots) -->
+            <div class="absolute top-10 right-3 opacity-85">
+                <div class="grid grid-cols-3 gap-1.5">
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div>
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div>
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div><div class="w-1.5 h-1.5 rounded-full bg-[#b0e292]"></div>
+                </div>
+            </div>
+
+            <!-- จุดสีเขียวอ่อน: กลางขวา Grid Matrix (Middle Right Dot Matrix) -->
+            <div class="absolute top-1/2 right-4 -translate-y-12 opacity-85">
+                <div class="grid grid-cols-6 gap-2">
+                    <script>
+                        for(let i=0; i<48; i++) {
+                            document.write('<div class="w-2 h-2 rounded-full bg-[#b0e292]"></div>');
+                        }
+                    </script>
+                </div>
+            </div>
+
+            <!-- จุดสีเขียวอ่อน: ล่างขวา รูปเครื่องหมายบวก (Bottom Right Cross Dot Pattern) -->
+            <div class="absolute bottom-6 right-8 opacity-90 flex flex-col items-center">
+                <div class="grid grid-cols-3 gap-2 mb-2">
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div>
+                </div>
+                <div class="grid grid-cols-9 gap-2 my-1">
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div><div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div><div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div><div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div><div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div><div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div><div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mt-2">
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#c8f0b0]"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ------------------------------------------------------------- -->
+        <!-- 1. ป้ายหัวข้อหลักด้านบน "ทักษะ/ความสามารถพิเศษ" -->
+        <!-- ------------------------------------------------------------- -->
+        <div class="relative z-30 w-full mt-2 flex justify-center">
+            <div class="relative w-full max-w-lg bg-[#b0e292] rounded-3xl py-3.5 px-6 border-4 border-white shadow-xl flex items-center justify-center">
+                <h1 class="text-[#193a24] text-2xl sm:text-3xl font-extrabold tracking-wide text-center">
+                    ทักษะ/ความสามารถพิเศษ
+                </h1>
+            </div>
+        </div>
+
+        <!-- ------------------------------------------------------------- -->
+        <!-- 2. ส่วนเนื้อหาหลัก (กล่องข้อความ และ กรอบรูปภาพทรงเว้าพิเศษ) -->
+        <!-- ------------------------------------------------------------- -->
+        <div class="relative z-30 w-full my-auto space-y-6 pt-4">
+
+            <!-- แถวบน: กล่องข้อความซ้าย + กรอบรูปทรงเว้าขวา -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
+                
+                <!-- กล่องข้อความที่ 1 (บนซ้าย): การปฐมพยาบาล / การซักประวัติ -->
+                <div class="md:col-span-6 z-20">
+                    <div class="bg-[#b0e292] rounded-3xl p-5 border-2 border-[#193a24] shadow-2xl text-[#193a24] font-bold space-y-2 transform -rotate-1 hover:rotate-0 transition-transform duration-300">
+                        <p class="text-base sm:text-lg flex items-start gap-2">
+                            <span class="text-xl leading-none">•</span>
+                            <span>การปฐมพยาบาลเบื้องต้น</span>
+                        </p>
+                        <p class="text-base sm:text-lg flex items-start gap-2">
+                            <span class="text-xl leading-none">•</span>
+                            <span>การซักประวัติ/เช็คอาการคนไข้</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- กรอบรูปภาพที่ 1 (บนขวา - รูปทรงรอยเว้าโค้งมน Notched Tab Shape) -->
+                <div class="md:col-span-6 flex justify-end relative">
+                    <!-- ใส่ ลิงก์ตรง/URL ของรูปภาพใน src และ href ได้ทันที -->
+                    <a href="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" target="_blank" class="block w-full max-w-[280px] h-48 sm:h-56 group relative">
+                        <!-- กรอบรูปภาพพร้อมคลิป SVG Notch -->
+                        <div class="w-full h-full notched-image-shape bg-[#b0e292] p-1.5 shadow-2xl transition-transform duration-300 group-hover:scale-105">
+                            <div class="w-full h-full notched-image-shape overflow-hidden bg-emerald-100 relative">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" 
+                                    alt="รูปภาพทักษะการปฐมพยาบาล" 
+                                    class="w-full h-full object-cover"
+                                >
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- แถวล่าง: กรอบรูปสี่เหลี่ยมผืนผ้าซ้าย + กล่องข้อความขวา -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end pt-2">
+
+                <!-- กรอบรูปภาพที่ 2 (กลางซ้าย - รูปทรงสี่เหลี่ยมขอบมน) -->
+                <div class="md:col-span-7 flex justify-start">
+                    <!-- ใส่ ลิงก์ตรง/URL ของรูปภาพใน src และ href ได้ทันที -->
+                    <a href="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80" target="_blank" class="block w-full max-w-[320px] h-40 sm:h-48 group relative">
+                        <div class="w-full h-full bg-white p-1.5 rounded-3xl shadow-2xl transition-transform duration-300 group-hover:scale-105">
+                            <div class="w-full h-full rounded-[20px] overflow-hidden bg-emerald-100">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80" 
+                                    alt="รูปภาพทักษะการวัดสัญญาณชีพ" 
+                                    class="w-full h-full object-cover"
+                                >
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- กล่องข้อความที่ 2 (ล่างขวา): การตัดต่อรูปภาพ/วิดีโอ -->
+                <div class="md:col-span-5 flex justify-end">
+                    <div class="w-full max-w-xs bg-[#b0e292] rounded-3xl p-4 sm:p-5 border-2 border-[#193a24] shadow-2xl text-[#193a24] font-bold transform rotate-1 hover:rotate-0 transition-transform duration-300">
+                        <p class="text-base sm:text-lg flex items-center gap-2">
+                            <span class="text-xl leading-none">•</span>
+                            <span>การตัดต่อรูปภาพ/วิดีโอ</span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- จุดขาวประดับเล็กน้อยด้านล่าง -->
+        <div class="relative z-30 w-full flex justify-center pb-2">
+            <div class="flex gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-white opacity-90"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-white opacity-90"></div>
+            </div>
+        </div>
+
+    </main>
+
+
+    <!-- Script ควบคุมระบบ Preloader และแอนิเมชันของตกแต่ง -->
+    <script>
+        // 1. Preloader Control
+        let progress = 0;
+        const percentElement = document.getElementById('loading-percent');
+        const ecgProgress = document.getElementById('ecg-progress-container');
+        const redHeart = document.getElementById('red-heart');
+        const preloader = document.getElementById('preloader');
+
+        const loadInterval = setInterval(() => {
+            progress += Math.floor(Math.random() * 6) + 4;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(loadInterval);
+
+                redHeart.classList.remove('text-slate-300');
+                redHeart.classList.add('text-red-500', 'heart-beat-anim');
+
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    preloader.style.pointerEvents = 'none';
+                    setTimeout(() => { preloader.style.display = 'none'; }, 700);
+                }, 600);
+            }
+            percentElement.textContent = progress + '%';
+            ecgProgress.style.width = progress + '%';
+        }, 35);
+
+        // 2. Falling Leaves & Medical Cross Particles
+        const container = document.getElementById('particles-container');
+        const leafColors = ['#2e6843', '#418059', '#78b58d', '#b0e292', '#ffffff'];
+
+        function createParticle(type) {
+            const item = document.createElement('div');
+            item.classList.add('falling-item');
+            item.style.left = Math.random() * 100 + 'vw';
+            
+            const duration = Math.random() * 5 + 6;
+            item.style.animationDuration = duration + 's';
+
+            if (type === 'leaf') {
+                const scale = Math.random() * 0.6 + 0.5;
+                const color = leafColors[Math.floor(Math.random() * leafColors.length)];
+                item.innerHTML = `
+                    <svg width="${26 * scale}" height="${26 * scale}" viewBox="0 0 24 24" fill="${color}">
+                        <path d="M17.2,3C12.5,3 8.3,6.2 7.1,10.7C5.9,15.2 7.8,20 11.8,22C12.1,22.1 12.4,22 12.6,21.8C12.8,21.6 12.9,21.3 12.8,21C12.3,18.8 13.1,16.5 14.8,15C16.5,13.5 18.9,13 21,13.7C21.3,13.8 21.6,13.7 21.8,13.5C22,13.3 22.1,13 22,12.7C21.2,7.1 17.5,3 17.2,3Z"/>
+                    </svg>
+                `;
+            } else {
+                const scale = Math.random() * 0.4 + 0.45;
+                const isWhite = Math.random() > 0.5;
+                const fillColor = isWhite ? '#ffffff' : '#2e6843';
+                const strokeColor = isWhite ? '#2e6843' : '#ffffff';
+                item.innerHTML = `
+                    <svg width="${22 * scale}" height="${22 * scale}" viewBox="0 0 24 24" fill="${fillColor}" stroke="${strokeColor}" stroke-width="1.8">
+                        <path d="M9 2H15V9H22V15H15V22H9V15H2V9H9V2Z" stroke-linejoin="round"/>
+                    </svg>
+                `;
+            }
+
+            container.appendChild(item);
+            setTimeout(() => { item.remove(); }, duration * 1000);
+        }
+
+        for (let i = 0; i < 6; i++) {
+            setTimeout(() => { createParticle(i % 2 === 0 ? 'leaf' : 'cross'); }, i * 600);
+        }
+
+        setInterval(() => {
+            const isCross = Math.random() > 0.45;
+            createParticle(isCross ? 'cross' : 'leaf');
+        }, 1000);
+    </script>
+
+</body>
+</html>
+
