@@ -140,7 +140,6 @@
     <main class="relative w-full max-w-md bg-white rounded-[36px] shadow-2xl overflow-hidden my-6 z-20 border-4 border-white/40">
 
         <!-- 1. ช่องใส่รูปภาพแบนเนอร์ส่วนหัว (Header Image Banner Box) -->
-        <!-- สามารถวางลิงก์รูปภาพของคุณได้ที่แท็ก <img> ด้านล่างนี้ -->
         <div class="relative w-full h-48 bg-[#cce3d2] overflow-hidden border-b-2 border-slate-100">
             <img 
                 src="https://i.postimg.cc/5t312f46/1789319110129.jpg" 
@@ -163,12 +162,11 @@
             </p>
         </div>
 
-        <!-- 3. รายการปุ่มกด (6 หัวข้อ) -->
-        <div class="px-6 pb-12 flex flex-col gap-4 relative z-10">
+        <!-- 3. รายการปุ่มกด (6 หัวข้อ + ปุ่มกลับหน้าหลัก index.html) -->
+        <div class="px-6 pb-10 flex flex-col gap-4 relative z-10">
             
-            <!-- 1. คำนำ (ไม่มีจุดสีเขียว และใช้หมุดปักสีเขียวเข้มปักตรงมุมปุ่ม ไม่ซ้อนทับกัน) -->
+            <!-- 1. คำนำ -->
             <div class="relative group pl-7">
-                <!-- เข็มหมุด (Pushpin) ปักอยู่ตรงมุมซ้ายบนของปุ่ม "คำนำ" อย่างตรงตำแหน่ง ไม่ซ้อนทับจุดสีเขียว -->
                 <div class="absolute left-1 top-1/2 -translate-y-1/2 z-20 pointer-events-none transform -rotate-45">
                     <svg class="w-7 h-7 text-[#15341c] drop-shadow-md" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M16 12V4H17V2H7V4H8V12L6 14V16H11V22H13V16H18V14L16 12Z"/>
@@ -217,6 +215,21 @@
                 <div class="w-4 h-4 rounded-full bg-[#1f4827] flex-shrink-0"></div>
                 <a href="กิจกรรมและเกียรติบัตรต่างๆ.html" class="flex-1 bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-lg py-2 px-6 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
                     กิจกรรมและเกียรติบัตรต่างๆ
+                </a>
+            </div>
+
+            <!-- เส้นแบ่งส่วนก่อนปุ่มกลับหน้าหลัก -->
+            <div class="w-full my-1 border-t-2 border-dashed border-[#1f4827]/20"></div>
+
+            <!-- ==================================================== -->
+            <!-- ปุ่มกลับหน้า index.html (กล่องสีขาว + ตัวหนังสือสีเขียว) -->
+            <!-- ==================================================== -->
+            <div class="w-full group">
+                <a href="index.html" class="flex items-center justify-center gap-2 bg-white hover:bg-[#1f4827] text-[#1f4827] hover:text-white font-bold text-center text-lg py-2.5 px-6 rounded-full border-2 border-[#1f4827] shadow-md transition-all duration-300 transform group-hover:scale-[1.02] active:scale-95">
+                    <svg class="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    <span>กลับหน้าหลัก</span>
                 </a>
             </div>
 
