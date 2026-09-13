@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำนำ - Preface</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts (Prompt) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #539871; /* สีพื้นหลังเขียวธีมหลัก */
+        }
+
+        /* Container สำหรับเอฟเฟกต์วัตถุร่วง (ใบไม้ + เครื่องหมายบวก) */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .falling-item {
+            position: absolute;
+            top: -10%;
+            pointer-events: none;
+            opacity: 0.85;
+            animation: fall-s-curve linear infinite;
+        }
+
+        @keyframes fall-s-curve {
+            0% { transform: translateY(0vh) translateX(0px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.9; }
+            25% { transform: translateY(25vh) translateX(35px) rotate(45deg); }
+            50% { transform: translateY(50vh) translateX(-35px) rotate(110deg); }
+            75% { transform: translateY(75vh) translateX(25px) rotate(180deg); }
+            100% { transform: translateY(105vh) translateX(-15px) rotate(260deg); opacity: 0; }
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.35); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.35); }
+            70% { transform: scale(1); }
+        }
+
+        .heart-beat-anim {
+            animation: heartbeat 0.8s ease-in-out infinite;
+            filter: drop-shadow(0px 0px 8px rgba(239, 68, 68, 0.8));
+        }
+
+        .floating-icon {
+            animation: float-gentle 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes float-gentle {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-12px) rotate(6deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-3 sm:p-6 relative overflow-x-hidden text-slate-800">
+
+    <!-- =================================================== -->
+    <!-- หน้าจอโหลดเข้าเว็บ (Medical ECG Loading Screen) -->
+    <!-- =================================================== -->
+    <div id="preloader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#eef4ed] transition-opacity duration-700">
+        <div class="max-w-xs sm:max-w-sm w-full p-6 text-center flex flex-col items-center">
+            <div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#1f4827]/10 text-[#1f4827]">
+                <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                </svg>
+            </div>
+            <h3 class="text-slate-800 font-bold text-lg mb-1">กำลังดาวน์โหลดข้อมูลการแพทย์</h3>
+            <p id="loading-percent" class="text-3xl font-extrabold text-[#1f4827] mb-6 tracking-wider">0%</p>
+            <div class="relative w-full flex items-center gap-2">
+                <div class="relative flex-1 h-12 bg-white/80 border border-slate-200 rounded-xl overflow-hidden shadow-inner flex items-center px-1">
+                    <svg class="w-full h-8 text-slate-300 stroke-current" preserveAspectRatio="none" viewBox="0 0 300 40" fill="none">
+                        <path d="M0 20 L40 20 L45 15 L50 25 L55 5 L62 35 L68 12 L73 25 L78 20 L120 20 L125 15 L130 25 L135 5 L142 35 L148 12 L153 25 L158 20 L200 20 L205 15 L210 25 L215 5 L222 35 L228 12 L233 25 L238 20 L300 20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div id="ecg-progress-container" class="absolute left-0 top-0 bottom-0 overflow-hidden w-0 transition-all duration-75 flex items-center px-1 bg-[#1f4827]/10">
+                        <svg class="w-full h-8 text-[#1f4827] stroke-current" style="min-width: 100%;" preserveAspectRatio="none" viewBox="0 0 300 40" fill="none">
+                            <path d="M0 20 L40 20 L45 15 L50 25 L55 5 L62 35 L68 12 L73 25 L78 20 L120 20 L125 15 L130 25 L135 5 L142 35 L148 12 L153 25 L158 20 L200 20 L205 15 L210 25 L215 5 L222 35 L228 12 L233 25 L238 20 L300 20" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex-shrink-0">
+                    <svg id="red-heart" class="w-8 h-8 text-slate-300 transition-colors duration-300" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container สำหรับเอฟเฟกต์วัตถุร่วง (ใบไม้ + เครื่องหมายบวก) -->
+    <div id="particles-container"></div>
+
+    <!-- ========================================================== -->
+    <!-- ปุ่มควบคุมย้อนกลับ (กล่องสีขาว ตัวหนังสือสีเขียว) -->
+    <!-- ========================================================== -->
+    <div class="fixed top-4 left-4 z-40 flex gap-2">
+        <a href="portfolio.html" class="flex items-center gap-2 bg-white hover:bg-[#1f4827] text-[#1f4827] hover:text-white font-bold text-sm sm:text-base py-2 px-4 rounded-full shadow-lg border-2 border-[#1f4827] transition-all duration-300 transform hover:scale-105 active:scale-95">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <span>กลับหน้าเมนู</span>
+        </a>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- อุปกรณ์ทางการแพทย์ประดับข้างจอ (Left & Right Side Decor) -->
+    <!-- ========================================================== -->
+    <div class="fixed top-16 left-6 z-30 floating-icon pointer-events-none opacity-80 hidden lg:block">
+        <img src="https://cdn-icons-png.flaticon.com/512/3063/3063183.png" alt="Stethoscope" class="w-16 h-16 drop-shadow-xl transform -rotate-12">
+    </div>
+    <div class="fixed bottom-12 right-6 z-30 floating-icon pointer-events-none opacity-80 hidden lg:block" style="animation-delay: -2s;">
+        <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" alt="First Aid Kit" class="w-16 h-16 drop-shadow-xl transform rotate-6">
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- การ์ดหน้าคำนำ (Main Preface Card - จำลองแบบจาก 499.jpg 100%) -->
+    <!-- =================================================================== -->
+    <main class="relative w-full max-w-3xl bg-[#eaf3ed] rounded-[36px] shadow-2xl overflow-hidden my-8 border-4 border-white/60 p-6 sm:p-14 min-h-[850px] flex flex-col justify-between z-20">
+
+        <!-- 1. รูปทรงหกเหลี่ยมประดับมุมซ้ายบน (Top-Left Hexagons) -->
+        <div class="absolute top-0 left-0 z-10 pointer-events-none w-52 sm:w-72 h-52 sm:h-72">
+            <svg viewBox="0 0 300 300" class="w-full h-full">
+                <!-- Hexagon 1 (Large Dark Green) -->
+                <polygon points="0,0 120,0 160,70 120,140 0,140" fill="#1f4827" />
+                <!-- Hexagon 2 (Mid Green Overlap) -->
+                <polygon points="70,90 140,90 175,150 140,210 70,210 35,150" fill="#3a6a48" />
+                <!-- Hexagon 3 (Sage Green Top) -->
+                <polygon points="125,10 185,10 215,60 185,110 125,110 95,60" fill="#588f68" />
+                <!-- Hexagon 4 (Light Green Outer) -->
+                <polygon points="170,80 220,80 245,125 220,170 170,170 145,125" fill="#7ba88a" />
+                <!-- Small Hexagons -->
+                <polygon points="10,135 55,135 75,170 55,205 10,205 -10,170" fill="#2d5539" />
+                <polygon points="0,185 35,185 52,215 35,245 0,245 -17,215" fill="#4d7c5c" />
+            </svg>
+        </div>
+
+        <!-- 2. จุดสีเขียวมุมขวาบน (Top-Right Dot Grid) -->
+        <div class="absolute top-6 right-6 sm:top-10 sm:right-10 z-10 pointer-events-none">
+            <svg width="120" height="150" viewBox="0 0 120 150" fill="none">
+                <g fill="#9ab5a0">
+                    <circle cx="10" cy="10" r="3.5"/><circle cx="32" cy="10" r="3.5"/><circle cx="54" cy="10" r="3.5"/><circle cx="76" cy="10" r="3.5"/><circle cx="98" cy="10" r="3.5"/>
+                    <circle cx="10" cy="30" r="3.5"/><circle cx="32" cy="30" r="3.5"/><circle cx="54" cy="30" r="3.5"/><circle cx="76" cy="30" r="3.5"/><circle cx="98" cy="30" r="3.5"/>
+                    <circle cx="10" cy="50" r="3.5"/><circle cx="32" cy="50" r="3.5"/><circle cx="54" cy="50" r="3.5"/><circle cx="76" cy="50" r="3.5"/><circle cx="98" cy="50" r="3.5"/>
+                    <circle cx="10" cy="70" r="3.5"/><circle cx="32" cy="70" r="3.5"/><circle cx="54" cy="70" r="3.5"/><circle cx="76" cy="70" r="3.5"/><circle cx="98" cy="70" r="3.5"/>
+                    <circle cx="10" cy="90" r="3.5"/><circle cx="32" cy="90" r="3.5"/><circle cx="54" cy="90" r="3.5"/><circle cx="76" cy="90" r="3.5"/><circle cx="98" cy="90" r="3.5"/>
+                    <circle cx="10" cy="110" r="3.5"/><circle cx="32" cy="110" r="3.5"/><circle cx="54" cy="110" r="3.5"/><circle cx="76" cy="110" r="3.5"/><circle cx="98" cy="110" r="3.5"/>
+                    <circle cx="10" cy="130" r="3.5"/><circle cx="32" cy="130" r="3.5"/><circle cx="54" cy="130" r="3.5"/><circle cx="76" cy="130" r="3.5"/><circle cx="98" cy="130" r="3.5"/>
+                </g>
+            </svg>
+        </div>
+
+        <!-- 3. ป้ายหัวข้อ "คำนำ" ด้านบนตรงกลาง -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-60 sm:w-80 h-28 sm:h-36 bg-[#1f4827] rounded-b-[45px] shadow-lg flex items-center justify-center z-20 border-b-2 border-x-2 border-white/20">
+            <h1 class="text-white text-4xl sm:text-5xl font-extrabold tracking-wider pt-1">คำนำ</h1>
+        </div>
+
+        <!-- 4. เนื้อหาข้อความ (Text Content) -->
+        <div class="pt-32 sm:pt-40 px-2 sm:px-6 z-20 text-slate-800 leading-relaxed font-normal text-base sm:text-lg tracking-wide space-y-6 sm:space-y-8">
+            
+            <p class="text-justify indent-8 sm:indent-12">
+                แฟ้มสะสมผลงานเล่มนี้ ข้าพเจ้าจัดทำขึ้นเพื่อเป็นตัวแทนในการนำเสนอข้อมูลเกี่ยวกับประวัติส่วนตัว ประวัติการศึกษา ความรู้ ความสามารถ ทักษะ ความสนใจพิเศษ ตลอดจนประวัติการเข้าร่วมกิจกรรมและผลงานต่างๆ ของข้าพเจ้าเนื่องจากข้าพเจ้ามีความสนใจและเล็งเห็นถึงความสำคัญในด้านวิทยาศาสตร์สายสุขภาพ
+            </p>
+
+            <p class="text-justify indent-8 sm:indent-12">
+                ข้าพเจ้าจึงได้รวบรวมผลงานและกิจกรรมที่ได้ทุ่มเทและตั้งใจทำตลอดระยะเวลาที่ผ่านมา ซึ่งสะท้อนถึงความมุ่งมั่นและความพร้อมในการเข้าศึกษาต่อในระดับอุดมศึกษา
+            </p>
+
+            <p class="text-justify indent-8 sm:indent-12">
+                ข้าพเจ้าหวังเป็นอย่างยิ่งว่าแฟ้มสะสมผลงานเล่มนี้ จะทำให้คณะกรรมการได้เห็นถึงศักยภาพและตัวตนของข้าพเจ้าเด่นชัดยิ่งขึ้น และขอขอบพระคุณคณะครู อาจารย์ ครอบครัว ตลอดจนผู้มีส่วนเกี่ยวข้องทุกท่านที่ให้การสนับสนุนและคำแนะนำที่ดีเสมอมา หากมีข้อผิดพลาดประการใด ข้าพเจ้าขออภัยมา ณ ที่นี้ด้วย
+            </p>
+
+        </div>
+
+        <!-- 5. ส่วนลงชื่อผู้จัดทำ (Bottom Right) & ของตกแต่งมุมล่าง -->
+        <div class="relative mt-12 sm:mt-16 z-20 flex justify-end items-end">
+            
+            <!-- กล่องข้อความ จัดทำโดย -->
+            <div class="text-right pr-2 sm:pr-6 pb-2 z-20">
+                <p class="text-lg sm:text-xl font-bold text-slate-800 mb-0.5">จัดทำโดย</p>
+                <p class="text-xl sm:text-2xl font-extrabold text-slate-950 tracking-wide">ชนาธิป จึงสงวนสิทธิ์</p>
+            </div>
+
+            <!-- จุดสีเขียวมุมขวาล่าง (Bottom-Right Dot Grid) -->
+            <div class="absolute -bottom-4 -right-4 sm:-bottom-8 sm:-right-8 z-10 pointer-events-none">
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+                    <g fill="#9ab5a0">
+                        <circle cx="10" cy="10" r="3.5"/><circle cx="32" cy="10" r="3.5"/><circle cx="54" cy="10" r="3.5"/><circle cx="76" cy="10" r="3.5"/>
+                        <circle cx="10" cy="30" r="3.5"/><circle cx="32" cy="30" r="3.5"/><circle cx="54" cy="30" r="3.5"/><circle cx="76" cy="30" r="3.5"/>
+                        <circle cx="10" cy="50" r="3.5"/><circle cx="32" cy="50" r="3.5"/><circle cx="54" cy="50" r="3.5"/><circle cx="76" cy="50" r="3.5"/>
+                        <circle cx="10" cy="70" r="3.5"/><circle cx="32" cy="70" r="3.5"/><circle cx="54" cy="70" r="3.5"/><circle cx="76" cy="70" r="3.5"/>
+                    </g>
+                </svg>
+            </div>
+
+        </div>
+
+        <!-- 6. รูปทรงหกเหลี่ยมประดับมุมซ้ายล่าง (Bottom-Left Hexagons) -->
+        <div class="absolute bottom-0 left-0 z-10 pointer-events-none w-60 sm:w-80 h-60 sm:h-80">
+            <svg viewBox="0 0 320 320" class="w-full h-full">
+                <!-- Hexagon 1 (Dark Green Bottom Base) -->
+                <polygon points="0,180 110,180 160,250 110,320 0,320" fill="#1f4827" />
+                <!-- Hexagon 2 (Mid Green Corner) -->
+                <polygon points="50,110 130,110 170,180 130,250 50,250 10,180" fill="#2e5837" />
+                <!-- Hexagon 3 (Sage Green Middle) -->
+                <polygon points="120,200 180,200 210,250 180,300 120,300 90,250" fill="#528361" />
+                <!-- Hexagon 4 (Light Green Small) -->
+                <polygon points="175,160 220,160 242,195 220,230 175,230 153,195" fill="#7ba88a" />
+                <!-- Tiny Accent Hexagons -->
+                <polygon points="215,225 245,225 260,250 245,275 215,275 200,250" fill="#1f4827" />
+                <polygon points="135,275 170,275 187,300 170,325 135,325 118,300" fill="#3a6a48" />
+                <polygon points="15,280 60,280 82,315 60,350 15,350 -7,315" fill="#4d7c5c" />
+            </svg>
+        </div>
+
+    </main>
+
+
+    <!-- Script ควบคุมระบบ Preloader และแอนิเมชันของตกแต่ง -->
+    <script>
+        // 1. Preloader Control
+        let progress = 0;
+        const percentElement = document.getElementById('loading-percent');
+        const ecgProgress = document.getElementById('ecg-progress-container');
+        const redHeart = document.getElementById('red-heart');
+        const preloader = document.getElementById('preloader');
+
+        const loadInterval = setInterval(() => {
+            progress += Math.floor(Math.random() * 6) + 4;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(loadInterval);
+
+                redHeart.classList.remove('text-slate-300');
+                redHeart.classList.add('text-red-500', 'heart-beat-anim');
+
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    preloader.style.pointerEvents = 'none';
+                    setTimeout(() => { preloader.style.display = 'none'; }, 700);
+                }, 600);
+            }
+            percentElement.textContent = progress + '%';
+            ecgProgress.style.width = progress + '%';
+        }, 35);
+
+        // 2. Falling Leaves & Medical Cross Particles
+        const container = document.getElementById('particles-container');
+        const leafColors = ['#1f4827', '#2e6339', '#689771', '#8db891', '#ffffff'];
+
+        function createParticle(type) {
+            const item = document.createElement('div');
+            item.classList.add('falling-item');
+            item.style.left = Math.random() * 100 + 'vw';
+            
+            const duration = Math.random() * 5 + 6;
+            item.style.animationDuration = duration + 's';
+
+            if (type === 'leaf') {
+                const scale = Math.random() * 0.6 + 0.5;
+                const color = leafColors[Math.floor(Math.random() * leafColors.length)];
+                item.innerHTML = `
+                    <svg width="${26 * scale}" height="${26 * scale}" viewBox="0 0 24 24" fill="${color}">
+                        <path d="M17.2,3C12.5,3 8.3,6.2 7.1,10.7C5.9,15.2 7.8,20 11.8,22C12.1,22.1 12.4,22 12.6,21.8C12.8,21.6 12.9,21.3 12.8,21C12.3,18.8 13.1,16.5 14.8,15C16.5,13.5 18.9,13 21,13.7C21.3,13.8 21.6,13.7 21.8,13.5C22,13.3 22.1,13 22,12.7C21.2,7.1 17.5,3 17.2,3Z"/>
+                    </svg>
+                `;
+            } else {
+                const scale = Math.random() * 0.4 + 0.45;
+                const isWhite = Math.random() > 0.5;
+                const fillColor = isWhite ? '#ffffff' : '#1f4827';
+                const strokeColor = isWhite ? '#1f4827' : '#ffffff';
+                item.innerHTML = `
+                    <svg width="${22 * scale}" height="${22 * scale}" viewBox="0 0 24 24" fill="${fillColor}" stroke="${strokeColor}" stroke-width="1.8">
+                        <path d="M9 2H15V9H22V15H15V22H9V15H2V9H9V2Z" stroke-linejoin="round"/>
+                    </svg>
+                `;
+            }
+
+            container.appendChild(item);
+            setTimeout(() => { item.remove(); }, duration * 1000);
+        }
+
+        for (let i = 0; i < 6; i++) {
+            setTimeout(() => { createParticle(i % 2 === 0 ? 'leaf' : 'cross'); }, i * 600);
+        }
+
+        setInterval(() => {
+            const isCross = Math.random() > 0.45;
+            createParticle(isCross ? 'cross' : 'leaf');
+        }, 1000);
+    </script>
+
+</body>
+</html>
+
