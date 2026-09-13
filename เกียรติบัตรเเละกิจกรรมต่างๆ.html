@@ -79,6 +79,14 @@
 </head>
 <body class="min-h-screen relative overflow-x-hidden text-slate-800 pb-16">
 
+    <!-- ปุ่มย้อนกลับแบบลอย (Floating Back Button) ติดหน้าจอตลอดเวลา -->
+    <a href="portfolio.html" class="fixed top-4 left-4 z-40 inline-flex items-center gap-2 bg-[#1f4827]/90 hover:bg-[#1f4827] text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-full shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 active:scale-95 border border-white/20">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <span>กลับหน้าหลัก</span>
+    </a>
+
     <!-- Preloader หน้าจอโหลดเข้าเว็บ -->
     <div id="preloader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#eef4ed] transition-opacity duration-700">
         <div class="max-w-xs sm:max-w-sm w-full p-6 text-center flex flex-col items-center">
@@ -120,7 +128,7 @@
     <section class="relative max-w-4xl mx-auto min-h-screen bg-[#dceada] px-4 pt-12 pb-16 overflow-hidden border-b-2 border-slate-300/50">
         
         <!-- แถบหัวข้อสีเขียวเข้มเฉียงด้านบน + จุดไข่ปลา -->
-        <div class="absolute top-0 left-0 w-3/4 sm:w-2/3 h-28 bg-[#1f4827] header-banner z-10 flex items-center pl-8 sm:pl-12">
+        <div class="absolute top-0 left-0 w-3/4 sm:w-2/3 h-28 bg-[#1f4827] header-banner z-10 flex items-center pl-20 sm:pl-28">
             <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-wide">กิจกรรม</h1>
         </div>
 
@@ -152,7 +160,6 @@
                 <div class="order-1 md:order-2 flex justify-center">
                     <div class="w-full max-w-sm h-48 bg-[#1f4827] hex-horizontal p-1.5 shadow-md">
                         <div class="w-full h-full bg-[#dbece0] hex-horizontal overflow-hidden relative flex items-center justify-center">
-                            <!-- ⬇️ ใส่ลิงก์รูปตรงกิจกรรมที่ 1 ⬇️ -->
                             <img src="https://i.postimg.cc/GmqN9K8F/1789324436393.jpg" alt="กิจกรรมที่ 1" class="w-full h-full object-cover">
                         </div>
                     </div>
@@ -165,7 +172,6 @@
                 <div class="flex justify-center">
                     <div class="w-full max-w-sm h-48 bg-[#1f4827] hex-horizontal p-1.5 shadow-md">
                         <div class="w-full h-full bg-[#dbece0] hex-horizontal overflow-hidden relative flex items-center justify-center">
-                            <!-- ⬇️ ใส่ลิงก์รูปตรงกิจกรรมที่ 2 ⬇️ -->
                             <img src="https://i.postimg.cc/85WtdmcP/1789324436516.jpg" alt="กิจกรรมที่ 2" class="w-full h-full object-cover">
                         </div>
                     </div>
@@ -192,7 +198,6 @@
                 <div class="order-1 md:order-2 flex justify-center">
                     <div class="w-full max-w-sm h-48 bg-[#1f4827] hex-horizontal p-1.5 shadow-md">
                         <div class="w-full h-full bg-[#dbece0] hex-horizontal overflow-hidden relative flex items-center justify-center">
-                            <!-- ⬇️ ใส่ลิงก์รูปตรงกิจกรรมที่ 3 ⬇️ -->
                             <img src="https://i.postimg.cc/X7w6N9kR/1789324436578.jpg" alt="กิจกรรมที่ 3" class="w-full h-full object-cover">
                         </div>
                     </div>
@@ -214,7 +219,7 @@
     <section class="relative max-w-4xl mx-auto min-h-screen bg-[#dceada] px-4 pt-12 pb-16 overflow-hidden border-b-2 border-slate-300/50">
         
         <!-- แถบหัวข้อสีเขียวเข้มเฉียงด้านบน + จุดไข่ปลา -->
-        <div class="absolute top-0 left-0 w-3/4 sm:w-2/3 h-28 bg-[#1f4827] header-banner z-10 flex items-center pl-8 sm:pl-12">
+        <div class="absolute top-0 left-0 w-3/4 sm:w-2/3 h-28 bg-[#1f4827] header-banner z-10 flex items-center pl-20 sm:pl-28">
             <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-wide">กิจกรรม</h1>
         </div>
 
@@ -246,7 +251,6 @@
                 <div class="order-1 md:order-2 flex justify-center">
                     <div class="w-full max-w-sm h-48 bg-[#1f4827] hex-horizontal p-1.5 shadow-md">
                         <div class="w-full h-full bg-[#dbece0] hex-horizontal overflow-hidden relative flex items-center justify-center">
-                            <!-- ⬇️ ใส่ลิงก์รูปตรงกิจกรรมที่ 4 ⬇️ -->
                             <img src="https://i.postimg.cc/cLHhkSCj/1789324439513.jpg" alt="กิจกรรมที่ 4" class="w-full h-full object-cover">
                         </div>
                     </div>
@@ -259,7 +263,6 @@
                 <div class="flex justify-center">
                     <div class="w-full max-w-sm h-48 bg-[#1f4827] hex-horizontal p-1.5 shadow-md">
                         <div class="w-full h-full bg-[#dbece0] hex-horizontal overflow-hidden relative flex items-center justify-center">
-                            <!-- ⬇️ ใส่ลิงก์รูปตรงกิจกรรมที่ 5 ⬇️ -->
                             <img src="https://i.postimg.cc/qBxGkRC1/1789324442886.jpg" alt="กิจกรรมที่ 5" class="w-full h-full object-cover">
                         </div>
                     </div>
@@ -286,7 +289,6 @@
                 <div class="order-1 md:order-2 flex justify-center">
                     <div class="w-full max-w-sm h-48 bg-[#1f4827] hex-horizontal p-1.5 shadow-md">
                         <div class="w-full h-full bg-[#dbece0] hex-horizontal overflow-hidden relative flex items-center justify-center">
-                            <!-- ⬇️ ใส่ลิงก์รูปตรงกิจกรรมที่ 6 ⬇️ -->
                             <img src="https://i.postimg.cc/dtSr1TQy/1789324445963.jpg" alt="กิจกรรมที่ 6" class="w-full h-full object-cover">
                         </div>
                     </div>
@@ -308,7 +310,7 @@
     <section class="relative max-w-4xl mx-auto min-h-screen bg-[#dceada] px-4 pt-12 pb-16 overflow-hidden">
         
         <!-- แถบหัวข้อสีเขียวเข้มเฉียงด้านบน -->
-        <div class="absolute top-0 left-0 w-5/6 sm:w-3/4 h-32 bg-[#1f4827] header-banner z-10 flex flex-col justify-center pl-8 sm:pl-12">
+        <div class="absolute top-0 left-0 w-5/6 sm:w-3/4 h-32 bg-[#1f4827] header-banner z-10 flex flex-col justify-center pl-20 sm:pl-28">
             <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-wide leading-tight">กิจกรรมนอก<br>สถานศึกษา</h1>
         </div>
 
@@ -347,7 +349,6 @@
             <!-- กรอบโพลารอยด์รูปภาพกิจกรรมนอกสถานศึกษา -->
             <div class="w-full max-w-md bg-white p-4 pb-6 rounded-sm shadow-xl mb-6 transform -rotate-1 hover:rotate-0 transition-transform duration-300">
                 <div class="w-full h-72 sm:h-80 bg-[#dbece0] border border-slate-200 overflow-hidden relative flex items-center justify-center">
-                    <!-- ⬇️ ใส่ลิงก์รูปกิจกรรมโรงพยาบาลบ้านบึงตรงนี้ ⬇️ -->
                     <img src="https://i.postimg.cc/wTPRH8F5/1789325013216.jpg" alt="การฝึกประสบการณ์ที่โรงพยาบาลบ้านบึง" class="w-full h-full object-cover">
                 </div>
             </div>
@@ -359,10 +360,13 @@
                 </p>
             </div>
 
-            <!-- ปุ่มย้อนกลับหน้าหลัก -->
+            <!-- ปุ่มย้อนกลับหน้าหลัก (ส่วนท้าย) -->
             <div class="mt-8">
-                <a href="index.html" class="inline-flex items-center gap-2 bg-[#1f4827] hover:bg-[#15331b] text-white font-semibold px-6 py-2.5 rounded-full shadow-md transition-all duration-300 hover:scale-105 active:scale-95">
-                    <span>← กลับหน้าหลัก</span>
+                <a href="portfolio.html" class="inline-flex items-center gap-2 bg-[#1f4827] hover:bg-[#15331b] text-white font-semibold px-6 py-2.5 rounded-full shadow-md transition-all duration-300 hover:scale-105 active:scale-95">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    <span>กลับหน้าหลัก (portfolio.html)</span>
                 </a>
             </div>
 
