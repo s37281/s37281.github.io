@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>กิจกรรมและประสบการณ์ - ชนาธิป จึงสงวนสิทธิ์</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts (Prompt) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #dceada; /* สีพื้นหลังเขียวอ่อนตามธีมหลัก */
+        }
+
+        /* รูปทรงหกเหลี่ยมสเกลปกติ */
+        .hex-shape {
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        /* รูปทรงหกเหลี่ยมแนวนอน (Horizontal Hexagon Container สำหรับรูปกิจกรรม 1-6) */
+        .hex-horizontal {
+            clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%);
+        }
+
+        /* แถบหัวข้อสีเขียวเข้มเฉียงด้านบน */
+        .header-banner {
+            clip-path: polygon(0 0, 100% 0, 100% 70%, 75% 100%, 0 100%);
+        }
+
+        /* Container สำหรับเอฟเฟกต์วัตถุร่วง */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 15;
+            overflow: hidden;
+        }
+
+        .falling-item {
+            position: absolute;
+            top: -10%;
+            pointer-events: none;
+            opacity: 0.85;
+            animation: fall-s-curve linear infinite;
+        }
+
+        @keyframes fall-s-curve {
+            0% { transform: translateY(0vh) translateX(0px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.9; }
+            25% { transform: translateY(25vh) translateX(35px) rotate(45deg); }
+            50% { transform: translateY(50vh) translateX(-35px) rotate(110deg); }
+            75% { transform: translateY(75vh) translateX(25px) rotate(180deg); }
+            100% { transform: translateY(105vh) translateX(-15px) rotate(260deg); opacity: 0; }
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.35); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.35); }
+            70% { transform: scale(1); }
+        }
+
+        .heart-beat-anim {
+            animation: heartbeat 0.8s ease-in-out infinite;
+            filter: drop-shadow(0px 0px 8px rgba(239, 68, 68, 0.8));
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden text-slate-800 pb-16">
+
+    <!-- Preloader หน้าจอโหลดเข้าเว็บ -->
+    <div id="preloader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#eef4ed] transition-opacity duration-700">
+        <div class="max-w-xs sm:max-w-sm w-full p-6 text-center flex flex-col items-center">
+            <div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#1f4827]/10 text-[#1f4827]">
+                <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                </svg>
+            </div>
+            <h3 class="text-slate-800 font-bold text-lg mb-1">กำลังดาวน์โหลดข้อมูลการแพทย์</h3>
+            <p id="loading-percent" class="text-3xl font-extrabold text-[#1f4827] mb-6 tracking-wider">0%</p>
+            <div class="relative w-full flex items-center gap-2">
+                <div class="relative flex-1 h-12 bg-white/80 border border-slate-200 rounded-xl overflow-hidden shadow-inner flex items-center px-1">
+                    <svg class="w-full h-8 text-slate-300 stroke-current" preserveAspectRatio="none" viewBox="0 0 300 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 20 L40 20 L45 15 L50 25 L55 5 L62 35 L68 12 L73 25 L78 20 L120 20 L125 15 L130 25 L135 5 L142 35 L148 12 L153 25 L158 20 L200 20 L205 15 L210 25 L215 5 L222 35 L228 12 L233 25 L238 20 L300 20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div id="ecg-progress-container" class="absolute left-0 top-0 bottom-0 overflow-hidden w-0 transition-all duration-75 flex items-center px-1 bg-[#1f4827]/10">
+                        <svg class="w-full h-8 text-[#1f4827] stroke-current" style="min-width: 100%;" preserveAspectRatio="none" viewBox="0 0 300 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 20 L40 20 L45 15 L50 25 L55 5 L62 35 L68 12 L73 25 L78 20 L120 20 L125 15 L130 25 L135 5 L142 35 L148 12 L153 25 L158 20 L200 20 L205 15 L210 25 L215 5 L222 35 L228 12 L233 25 L238 20 L300 20" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex-shrink-0">
+                    <svg id="red-heart" class="w-8 h-8 text-slate-300 transition-colors duration-300" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+            </div>
+            <p class="text-xs text-slate-500 mt-4 font-light">Medical Portfolio System Initializing...</p>
+        </div>
+    </div>
+
+    <!-- Container สำหรับเอฟเฟกต์วัตถุร่วง (ใบไม้ + เครื่องหมายบวก) -->
+    <div id="particles-container"></div>
+
+
+    <!-- =================================================== -->
+    <!-- หน้าที่ 1: กิจกรรม (ม.4 - ม.5 | กิจกรรมที่ 1 - 3) -->
+    <!-- =================================================== -->
+    <section class="relative max-w-4xl mx-auto min-h-screen bg-[#dceada] px-4 pt-12 pb-16 overflow-hidden border-b-2 border-slate-300/50">
+        
+        <!-- แถบหัวข้อสีเขียวเข้มเฉียงด้านบน + จุดไข่ปลา -->
+        <div class="absolute top-0 left-0 w-3/4 sm:w-2/3 h-28 bg-[#1f4827] header-banner z-10 flex items-center pl-8 sm:pl-12">
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-wide">กิจกรรม</h1>
+        </div>
+
+        <!-- จุดไข่ปลา ขวาบน -->
+        <div class="absolute top-4 right-4 grid grid-cols-6 gap-2 z-0 opacity-70">
+            <script>for(let i=0; i<30; i++) document.write('<div class="w-2 h-2 rounded-full bg-[#a3c9a8]"></div>');</script>
+        </div>
+
+        <!-- หกเหลี่ยมประดับฉากหลัง -->
+        <div class="absolute top-40 -left-10 w-36 h-36 bg-[#1f4827] hex-shape opacity-80"></div>
+        <div class="absolute top-72 -left-6 w-20 h-20 bg-[#689771] hex-shape opacity-80"></div>
+        <div class="absolute top-96 left-8 w-12 h-12 bg-[#8db891] hex-shape opacity-70"></div>
+        <div class="absolute bottom-20 right-4 w-16 h-16 bg-[#1f4827] hex-shape opacity-80"></div>
+        <div class="absolute bottom-8 right-16 w-10 h-10 bg-[#689771] hex-shape opacity-70"></div>
+
+        <!-- รายการกิจกรรม 1-3 -->
+        <div class="relative z-20 pt-28 space-y-12">
+            
+            <!-- กิจกรรมที่ 1 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div class="order-2 md:order-1 text-left md:text-right pr-2">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">มัธยมศึกษาปีที่ 4</h2>
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">กิจกรรมที่ 1</h3>
+                    <p class="text-xs sm:text-sm text-slate-800 leading-relaxed max-w-md ml-auto">
+                        ได้รับการอบรมเชิงปฏิบัติการเสริมสร้างความปลอดภัยในสถานศึกษา ตามโครงการฝึกอบรมการดับเพลิงและการฝึกซ้อมอพยพหนีไฟในสถานศึกษา ประจำปีการศึกษา ๒๕๖๗
+                    </p>
+                </div>
+                <!-- ช่องภาพหกเหลี่ยมแนวนอน (กิจกรรมที่ 1) -->
+                <div class="order-1 md:order-2 flex justify-center">
+                    <div class="w-full max-w-sm h-48 bg-[#1f4827] hex-horizontal p-1.5 shadow-md">
+                        <div class="w-full h-full bg-[#dbece0] hex-horizontal overflow-hidden relative flex items-center justify-center">
+                            <!-- ⬇️ ใส่ลิงก์รูปตรงกิจกรรมที่ 1 ⬇️ -->
+                            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800" alt="กิจกรรมที่ 1" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- กิจกรรมที่ 2 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <!-- ช่องภาพหกเหลี่ยมแนวนอน (กิจกรรมที่ 2) -->
+                <div class="flex justify-center">
+                    <div class="w-full max-w-sm h-48 bg-[#1f4827] hex-horizontal p-1.5 shadow-md">
+                        <div class="w-full h-full bg-[#dbece0] hex-horizontal overflow-hidden relative flex items-center justify-center">
+                            <!-- ⬇️ ใส่ลิงก์รูปตรงกิจกรรมที่ 2 ⬇️ -->
+                            <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800" alt="กิจกรรมที่ 2" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-left pl-2">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">มัธยมศึกษาปีที่ 5</h2>
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">กิจกรรมที่ 2</h3>
+                    <p class="text-xs sm:text-sm text-slate-800 leading-relaxed max-w-md">
+                        ได้ผ่านการเรียนและทดสอบตามเกณฑ์ที่กำหนดของหลักสูตรต้านทุจริตศึกษา
+                    </p>
+                </div>
+            </div>
+
+            <!-- กิจกรรมที่ 3 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div class="order-2 md:order-1 text-left md:text-right pr-2">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">มัธยมศึกษาปีที่ 5</h2>
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">กิจกรรมที่ 3</h3>
+                    <p class="text-xs sm:text-sm text-slate-800 leading-relaxed max-w-md ml-auto">
+                        เข้าร่วมการแข่งขันประกวดคำขวัญต่อต้านการทุจริต ระดับชั้นมัธยมศึกษาตอนปลาย
+                    </p>
+                </div>
+                <!-- ช่องภาพหกเหลี่ยมแนวนอน (กิจกรรมที่ 3) -->
+                <div class="order-1 md:order-2 flex justify-center">
+                    <div class="w-full max-w-sm h-48 bg-[#1f4827] hex-horizontal p-1.5 shadow-md">
+                        <div class="w-full h-full bg-[#dbece0] hex-horizontal overflow-hidden relative flex items-center justify-center">
+                            <!-- ⬇️ ใส่ลิงก์รูปตรงกิจกรรมที่ 3 ⬇️ -->
+                            <img src="https://images.unsplash.com/photo-1527613426441-4da17471b66d?auto=format&fit=crop&q=80&w=800" alt="กิจกรรมที่ 3" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- จุดไข่ปลา ซ้ายล่าง -->
+        <div class="absolute bottom-4 left-4 grid grid-cols-5 gap-2 z-0 opacity-60">
+            <script>for(let i=0; i<20; i++) document.write('<div class="w-2 h-2 rounded-full bg-[#1f4827]"></div>');</script>
+        </div>
+    </section>
+
+
+    <!-- =================================================== -->
+    <!-- หน้าที่ 2: กิจกรรม (ม.5 - ม.6 | กิจกรรมที่ 4 - 6) -->
+    <!-- =================================================== -->
+    <section class="relative max-w-4xl mx-auto min-h-screen bg-[#dceada] px-4 pt-12 pb-16 overflow-hidden border-b-2 border-slate-300/50">
+        
+        <!-- แถบหัวข้อสีเขียวเข้มเฉียงด้านบน + จุดไข่ปลา -->
+        <div class="absolute top-0 left-0 w-3/4 sm:w-2/3 h-28 bg-[#1f4827] header-banner z-10 flex items-center pl-8 sm:pl-12">
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-wide">กิจกรรม</h1>
+        </div>
+
+        <!-- จุดไข่ปลา ขวาบน -->
+        <div class="absolute top-4 right-4 grid grid-cols-6 gap-2 z-0 opacity-70">
+            <script>for(let i=0; i<30; i++) document.write('<div class="w-2 h-2 rounded-full bg-[#a3c9a8]"></div>');</script>
+        </div>
+
+        <!-- หกเหลี่ยมประดับฉากหลัง -->
+        <div class="absolute top-40 -left-10 w-36 h-36 bg-[#1f4827] hex-shape opacity-80"></div>
+        <div class="absolute top-72 -left-6 w-20 h-20 bg-[#689771] hex-shape opacity-80"></div>
+        <div class="absolute top-96 left-8 w-12 h-12 bg-[#8db891] hex-shape opacity-70"></div>
+        <div class="absolute bottom-20 right-4 w-16 h-16 bg-[#1f4827] hex-shape opacity-80"></div>
+        <div class="absolute bottom-8 right-16 w-10 h-10 bg-[#689771] hex-shape opacity-70"></div>
+
+        <!-- รายการกิจกรรม 4-6 -->
+        <div class="relative z-20 pt-28 space-y-12">
+            
+            <!-- กิจกรรมที่ 4 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div class="order-2 md:order-1 text-left md:text-right pr-2">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">มัธยมศึกษาปีที่ 5</h2>
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">กิจกรรมที่ 4</h3>
+                    <p class="text-xs sm:text-sm text-slate-800 leading-relaxed max-w-md ml-auto">
+                        ได้เข้าร่วมการอบรมโครงการส่งเสริมการเรียนรู้หน้าที่พลเมืองดิจิทัล หลักสูตร "อุ่นใจไซเบอร์ สื่อการเรียนรู้เสริมทักษะทางดิจิทัล ระดับ Fundamental Level
+                    </p>
+                </div>
+                <!-- ช่องภาพหกเหลี่ยมแนวนอน (กิจกรรมที่ 4) -->
+                <div class="order-1 md:order-2 flex justify-center">
+                    <div class="w-full max-w-sm h-48 bg-[#1f4827] hex-horizontal p-1.5 shadow-md">
+                        <div class="w-full h-full bg-[#dbece0] hex-horizontal overflow-hidden relative flex items-center justify-center">
+                            <!-- ⬇️ ใส่ลิงก์รูปตรงกิจกรรมที่ 4 ⬇️ -->
+                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800" alt="กิจกรรมที่ 4" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- กิจกรรมที่ 5 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <!-- ช่องภาพหกเหลี่ยมแนวนอน (กิจกรรมที่ 5) -->
+                <div class="flex justify-center">
+                    <div class="w-full max-w-sm h-48 bg-[#1f4827] hex-horizontal p-1.5 shadow-md">
+                        <div class="w-full h-full bg-[#dbece0] hex-horizontal overflow-hidden relative flex items-center justify-center">
+                            <!-- ⬇️ ใส่ลิงก์รูปตรงกิจกรรมที่ 5 ⬇️ -->
+                            <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&q=80&w=800" alt="กิจกรรมที่ 5" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-left pl-2">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">มัธยมศึกษาปีที่ 6</h2>
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">กิจกรรมที่ 5</h3>
+                    <p class="text-xs sm:text-sm text-slate-800 leading-relaxed max-w-md">
+                        ได้เข้าร่วมกิจกรรม PTOT Open House 2026 เปิดบ้านคณะกายภาพบำบัด มหาวิทยาลัยมหิดล
+                    </p>
+                </div>
+            </div>
+
+            <!-- กิจกรรมที่ 6 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div class="order-2 md:order-1 text-left md:text-right pr-2">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">มัธยมศึกษาปีที่ 5</h2>
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">กิจกรรมที่ 6</h3>
+                    <p class="text-xs sm:text-sm text-slate-800 leading-relaxed max-w-md ml-auto">
+                        ได้เข้าร่วมการปลูกป่าชายเลนเครือบริษัทของ Denso ร่วมกับ Toyota
+                    </p>
+                </div>
+                <!-- ช่องภาพหกเหลี่ยมแนวนอน (กิจกรรมที่ 6) -->
+                <div class="order-1 md:order-2 flex justify-center">
+                    <div class="w-full max-w-sm h-48 bg-[#1f4827] hex-horizontal p-1.5 shadow-md">
+                        <div class="w-full h-full bg-[#dbece0] hex-horizontal overflow-hidden relative flex items-center justify-center">
+                            <!-- ⬇️ ใส่ลิงก์รูปตรงกิจกรรมที่ 6 ⬇️ -->
+                            <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=800" alt="กิจกรรมที่ 6" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- จุดไข่ปลา ซ้ายล่าง -->
+        <div class="absolute bottom-4 left-4 grid grid-cols-5 gap-2 z-0 opacity-60">
+            <script>for(let i=0; i<20; i++) document.write('<div class="w-2 h-2 rounded-full bg-[#1f4827]"></div>');</script>
+        </div>
+    </section>
+
+
+    <!-- =================================================== -->
+    <!-- หน้าที่ 3: กิจกรรมนอกสถานศึกษา (ฝึกประสบการณ์ รพ.บ้านบึง) -->
+    <!-- =================================================== -->
+    <section class="relative max-w-4xl mx-auto min-h-screen bg-[#dceada] px-4 pt-12 pb-16 overflow-hidden">
+        
+        <!-- แถบหัวข้อสีเขียวเข้มเฉียงด้านบน -->
+        <div class="absolute top-0 left-0 w-5/6 sm:w-3/4 h-32 bg-[#1f4827] header-banner z-10 flex flex-col justify-center pl-8 sm:pl-12">
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-wide leading-tight">กิจกรรมนอก<br>สถานศึกษา</h1>
+        </div>
+
+        <!-- หกเหลี่ยมประดับมุมขวาบน -->
+        <div class="absolute -top-10 -right-10 w-56 h-56 bg-[#1f4827] hex-shape opacity-90"></div>
+        <div class="absolute top-28 right-32 w-14 h-14 bg-[#689771] hex-shape opacity-80"></div>
+
+        <!-- จุดไข่ปลา ขวาบน/กลาง -->
+        <div class="absolute top-36 right-10 grid grid-cols-5 gap-2 z-0 opacity-70">
+            <script>for(let i=0; i<25; i++) document.write('<div class="w-2 h-2 rounded-full bg-[#a3c9a8]"></div>');</script>
+        </div>
+
+        <!-- องค์ประกอบตกแต่งด้านซ้ายและขวา -->
+        <div class="absolute top-1/2 -left-12 w-44 h-44 bg-[#1f4827] hex-shape opacity-80"></div>
+        <div class="absolute bottom-10 -left-8 w-28 h-28 bg-[#1f4827] hex-shape opacity-75"></div>
+        <div class="absolute top-1/3 -right-6 w-20 h-20 bg-[#689771] hex-shape opacity-80"></div>
+        <div class="absolute bottom-32 right-6 w-16 h-16 bg-[#1f4827] hex-shape opacity-85"></div>
+        <div class="absolute bottom-12 right-20 w-10 h-10 bg-[#689771] hex-shape opacity-70"></div>
+
+        <!-- จุดไข่ปลา ซ้ายบนและซ้ายล่าง -->
+        <div class="absolute top-44 left-4 grid grid-cols-5 gap-2 z-0 opacity-60">
+            <script>for(let i=0; i<25; i++) document.write('<div class="w-2 h-2 rounded-full bg-[#1f4827]"></div>');</script>
+        </div>
+        <div class="absolute bottom-6 right-6 grid grid-cols-5 gap-2 z-0 opacity-60">
+            <script>for(let i=0; i<20; i++) document.write('<div class="w-2 h-2 rounded-full bg-[#1f4827]"></div>');</script>
+        </div>
+
+        <!-- เนื้อหาหลัก (กรอบโพลารอยด์ + ข้อความคำอธิบาย) -->
+        <div class="relative z-20 pt-36 max-w-lg mx-auto flex flex-col items-center">
+            
+            <!-- ป้าย Badge: การฝึกประสบการณ์ที่โรงพยาบาลบ้านบึง -->
+            <div class="mb-4 bg-[#8eb88f] text-slate-900 font-bold px-5 py-2 rounded-full border-2 border-dashed border-slate-700 shadow-sm text-sm sm:text-base inline-block self-start ml-2 sm:ml-6">
+                การฝึกประสบการณ์ที่โรงพยาบาลบ้านบึง
+            </div>
+
+            <!-- กรอบโพลารอยด์รูปภาพกิจกรรมนอกสถานศึกษา -->
+            <div class="w-full max-w-md bg-white p-4 pb-6 rounded-sm shadow-xl mb-6 transform -rotate-1 hover:rotate-0 transition-transform duration-300">
+                <div class="w-full h-72 sm:h-80 bg-[#dbece0] border border-slate-200 overflow-hidden relative flex items-center justify-center">
+                    <!-- ⬇️ ใส่ลิงก์รูปกิจกรรมโรงพยาบาลบ้านบึงตรงนี้ ⬇️ -->
+                    <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800" alt="การฝึกประสบการณ์ที่โรงพยาบาลบ้านบึง" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <!-- กล่องข้อความรายละเอียดกิจกรรมนอกสถานศึกษา (ขอบมน) -->
+            <div class="w-full bg-white/90 border-2 border-slate-900 rounded-[24px] p-5 sm:p-6 shadow-md text-left">
+                <p class="text-slate-800 leading-relaxed text-sm sm:text-base font-normal">
+                    การฝึกประสบการณ์วิชาชีพ (หรือการฝึกงาน) ที่โรงพยาบาลบ้านบึง จังหวัดชลบุรี ถือเป็นโอกาส ที่ดีมากสำหรับนักเรียนในสายการแพทย์และเทคนิคการแพทย์ เนื่องจากเป็นโรงพยาบาลชุมชนขนาดกลางที่มีเคสผู้ป่วยค่อนข้างหลากหลาย ทำให้ได้ลงมือปฏิบัติจริงและเรียนรู้ระบบ งานสาธารณสุขระดับปฐมภูมิและทุติยภูมิได้อย่างครอบคลุม
+                </p>
+            </div>
+
+            <!-- ปุ่มย้อนกลับหน้าหลัก -->
+            <div class="mt-8">
+                <a href="index.html" class="inline-flex items-center gap-2 bg-[#1f4827] hover:bg-[#15331b] text-white font-semibold px-6 py-2.5 rounded-full shadow-md transition-all duration-300 hover:scale-105 active:scale-95">
+                    <span>← กลับหน้าหลัก</span>
+                </a>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Script ควบคุมการโหลด ECG และปล่อยใบไม้/เครื่องหมายบวก -->
+    <script>
+        // 1. Preloader Control
+        let progress = 0;
+        const percentElement = document.getElementById('loading-percent');
+        const ecgProgress = document.getElementById('ecg-progress-container');
+        const redHeart = document.getElementById('red-heart');
+        const preloader = document.getElementById('preloader');
+
+        const loadInterval = setInterval(() => {
+            progress += Math.floor(Math.random() * 6) + 4;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(loadInterval);
+
+                redHeart.classList.remove('text-slate-300');
+                redHeart.classList.add('text-red-500', 'heart-beat-anim');
+
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    preloader.style.pointerEvents = 'none';
+                    setTimeout(() => { preloader.style.display = 'none'; }, 700);
+                }, 600);
+            }
+            percentElement.textContent = progress + '%';
+            ecgProgress.style.width = progress + '%';
+        }, 35);
+
+        // 2. Falling Leaves & Medical Cross Particles
+        const container = document.getElementById('particles-container');
+        const leafColors = ['#1f4827', '#407a4b', '#689771', '#8db891', '#2d5838'];
+
+        function createParticle(type) {
+            const item = document.createElement('div');
+            item.classList.add('falling-item');
+            item.style.left = Math.random() * 100 + 'vw';
+            
+            const duration = Math.random() * 5 + 6;
+            item.style.animationDuration = duration + 's';
+
+            if (type === 'leaf') {
+                const scale = Math.random() * 0.6 + 0.5;
+                const color = leafColors[Math.floor(Math.random() * leafColors.length)];
+                item.innerHTML = `
+                    <svg width="${26 * scale}" height="${26 * scale}" viewBox="0 0 24 24" fill="${color}" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.2,3C12.5,3 8.3,6.2 7.1,10.7C5.9,15.2 7.8,20 11.8,22C12.1,22.1 12.4,22 12.6,21.8C12.8,21.6 12.9,21.3 12.8,21C12.3,18.8 13.1,16.5 14.8,15C16.5,13.5 18.9,13 21,13.7C21.3,13.8 21.6,13.7 21.8,13.5C22,13.3 22.1,13 22,12.7C21.2,7.1 17.5,3 17.2,3Z"/>
+                    </svg>
+                `;
+            } else {
+                const scale = Math.random() * 0.4 + 0.45;
+                const isWhite = Math.random() > 0.5;
+                const fillColor = isWhite ? '#ffffff' : '#2d5838';
+                const strokeColor = isWhite ? '#2d5838' : '#ffffff';
+                item.innerHTML = `
+                    <svg width="${22 * scale}" height="${22 * scale}" viewBox="0 0 24 24" fill="${fillColor}" stroke="${strokeColor}" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 1px 2px rgba(0,0,0,0.15));">
+                        <path d="M9 2H15V9H22V15H15V22H9V15H2V9H9V2Z" stroke-linejoin="round"/>
+                    </svg>
+                `;
+            }
+
+            container.appendChild(item);
+            setTimeout(() => { item.remove(); }, duration * 1000);
+        }
+
+        for (let i = 0; i < 6; i++) {
+            setTimeout(() => { createParticle(i % 2 === 0 ? 'leaf' : 'cross'); }, i * 600);
+        }
+
+        setInterval(() => {
+            const isCross = Math.random() > 0.45;
+            createParticle(isCross ? 'cross' : 'leaf');
+        }, 1000);
+    </script>
+
+</body>
+</html>
+
