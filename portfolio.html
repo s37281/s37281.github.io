@@ -140,7 +140,7 @@
     <main class="relative w-full max-w-md bg-white rounded-[36px] shadow-2xl overflow-hidden my-6 z-20 border-4 border-white/40">
 
         <!-- 1. ช่องใส่รูปภาพแบนเนอร์ส่วนหัว (Header Image Banner Box) -->
-        <div class="relative w-full h-48 bg-[#cce3d2] overflow-hidden border-b-2 border-slate-100">
+        <div class="relative w-full h-44 sm:h-48 bg-[#cce3d2] overflow-hidden border-b-2 border-slate-100">
             <img 
                 src="https://i.postimg.cc/DwpJPVsS/1789566983649.jpg" 
                 alt="Medical Portfolio Header Banner" 
@@ -151,70 +151,78 @@
         </div>
 
         <!-- 2. กล่องหัวข้อ "แฟ้มสะสมผลงาน" & "-Portfolio-" -->
-        <div class="relative -mt-8 flex flex-col items-center z-10 px-6">
+        <div class="relative -mt-7 flex flex-col items-center z-10 px-6">
             <!-- ป้ายหัวข้อเมนูทรงแคปซูลสีเขียวเข้ม -->
             <div class="bg-[#1f4827] text-white font-extrabold text-xl sm:text-2xl px-8 py-2 rounded-full shadow-lg border-2 border-white/80 tracking-wide text-center">
                 แฟ้มสะสมผลงาน
             </div>
             <!-- หัวข้อรอง Portfolio ตัวเอียง -->
-            <p class="font-portfolio italic text-2xl sm:text-3xl text-[#1f4827] font-semibold tracking-wider mt-1 mb-6">
+            <p class="font-portfolio italic text-2xl sm:text-3xl text-[#1f4827] font-semibold tracking-wider mt-1 mb-4 sm:mb-5">
                 -Portfolio-
             </p>
         </div>
 
-        <!-- 3. รายการปุ่มกด (6 หัวข้อ + ปุ่มกลับหน้าหลัก index.html) -->
-        <div class="px-6 pb-10 flex flex-col gap-4 relative z-10">
+        <!-- 3. รายการปุ่มกด (7 หัวข้อ + ปุ่มกลับหน้าหลัก index.html) -->
+        <div class="px-5 sm:px-6 pb-8 flex flex-col gap-3 relative z-10">
             
             <!-- 1. คำนำ -->
             <div class="relative group pl-7">
                 <div class="absolute left-1 top-1/2 -translate-y-1/2 z-20 pointer-events-none transform -rotate-45">
-                    <svg class="w-7 h-7 text-[#15341c] drop-shadow-md" viewBox="0 0 24 24" fill="currentColor">
+                    <svg class="w-6 h-6 sm:w-7 sm:h-7 text-[#15341c] drop-shadow-md" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M16 12V4H17V2H7V4H8V12L6 14V16H11V22H13V16H18V14L16 12Z"/>
                     </svg>
                 </div>
 
-                <a href="คำนำ.html" class="block w-full bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-lg py-2 px-6 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
+                <a href="คำนำ.html" class="block w-full bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-base sm:text-lg py-2 px-5 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
                     คำนำ
                 </a>
             </div>
 
             <!-- 2. ประวัติส่วนตัว -->
-            <div class="flex items-center gap-3 group">
-                <div class="w-4 h-4 rounded-full bg-[#1f4827] flex-shrink-0"></div>
-                <a href="ประวัติส่วนตัว.html" class="flex-1 bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-lg py-2 px-6 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
+            <div class="flex items-center gap-2.5 sm:gap-3 group">
+                <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#1f4827] flex-shrink-0"></div>
+                <a href="ประวัติส่วนตัว.html" class="flex-1 bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-base sm:text-lg py-2 px-5 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
                     ประวัติส่วนตัว
                 </a>
             </div>
 
             <!-- 3. ประวัติการศึกษา -->
-            <div class="flex items-center gap-3 group">
-                <div class="w-4 h-4 rounded-full bg-[#1f4827] flex-shrink-0"></div>
-                <a href="ประวัติการศึกษา.html" class="flex-1 bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-lg py-2 px-6 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
+            <div class="flex items-center gap-2.5 sm:gap-3 group">
+                <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#1f4827] flex-shrink-0"></div>
+                <a href="ประวัติการศึกษา.html" class="flex-1 bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-base sm:text-lg py-2 px-5 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
                     ประวัติการศึกษา
                 </a>
             </div>
 
             <!-- 4. ทักษะ/ความสามารถพิเศษ -->
-            <div class="flex items-center gap-3 group">
-                <div class="w-4 h-4 rounded-full bg-[#1f4827] flex-shrink-0"></div>
-                <a href="ทักษะเเละความสามารถพิเศษ.html" class="flex-1 bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-lg py-2 px-6 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
+            <div class="flex items-center gap-2.5 sm:gap-3 group">
+                <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#1f4827] flex-shrink-0"></div>
+                <a href="ทักษะเเละความสามารถพิเศษ.html" class="flex-1 bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-base sm:text-lg py-2 px-5 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
                     ทักษะ/ความสามารถพิเศษ
                 </a>
             </div>
 
             <!-- 5. มหาวิทยาลัยและคณะที่สนใจ -->
-            <div class="flex items-center gap-3 group">
-                <div class="w-4 h-4 rounded-full bg-[#1f4827] flex-shrink-0"></div>
-                <a href="มหาวิทยาลัยและคณะที่สนใจ.html" class="flex-1 bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-lg py-2 px-6 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
+            <div class="flex items-center gap-2.5 sm:gap-3 group">
+                <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#1f4827] flex-shrink-0"></div>
+                <a href="มหาวิทยาลัยและคณะที่สนใจ.html" class="flex-1 bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-base sm:text-lg py-2 px-5 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
                     มหาวิทยาลัยและคณะที่สนใจ
                 </a>
             </div>
 
             <!-- 6. กิจกรรมและเกียรติบัตรต่างๆ -->
-            <div class="flex items-center gap-3 group">
-                <div class="w-4 h-4 rounded-full bg-[#1f4827] flex-shrink-0"></div>
-                <a href="activities.html" class="flex-1 bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-lg py-2 px-6 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
+            <div class="flex items-center gap-2.5 sm:gap-3 group">
+                <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#1f4827] flex-shrink-0"></div>
+                <a href="activities.html" class="flex-1 bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-base sm:text-lg py-2 px-5 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
                     กิจกรรมและเกียรติบัตรต่างๆ
+                </a>
+            </div>
+
+            <!-- 7. ภาพและกิจกรรมที่เข้าร่วม -->
+            <div class="flex items-center gap-2.5 sm:gap-3 group">
+                <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#1f4827] flex-shrink-0"></div>
+                <a href="photo.html" class="flex-1 bg-[#1f4827] hover:bg-[#15341c] text-white font-bold text-center text-base sm:text-lg py-2 px-5 rounded-full shadow-md transition-all duration-200 transform group-hover:scale-[1.02] active:scale-95">
+                    ภาพและกิจกรรมที่เข้าร่วม
                 </a>
             </div>
 
@@ -225,7 +233,7 @@
             <!-- ปุ่มกลับหน้า index.html (กล่องสีขาว + ตัวหนังสือสีเขียว) -->
             <!-- ==================================================== -->
             <div class="w-full group">
-                <a href="index.html" class="flex items-center justify-center gap-2 bg-white hover:bg-[#1f4827] text-[#1f4827] hover:text-white font-bold text-center text-lg py-2.5 px-6 rounded-full border-2 border-[#1f4827] shadow-md transition-all duration-300 transform group-hover:scale-[1.02] active:scale-95">
+                <a href="index.html" class="flex items-center justify-center gap-2 bg-white hover:bg-[#1f4827] text-[#1f4827] hover:text-white font-bold text-center text-base sm:text-lg py-2.5 px-6 rounded-full border-2 border-[#1f4827] shadow-md transition-all duration-300 transform group-hover:scale-[1.02] active:scale-95">
                     <svg class="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
@@ -314,7 +322,7 @@
                 const color = leafColors[Math.floor(Math.random() * leafColors.length)];
                 item.innerHTML = `
                     <svg width="${26 * scale}" height="${26 * scale}" viewBox="0 0 24 24" fill="${color}">
-                        <path d="M17.2,3C12.5,3 8.3,6.2 7.1,10.7C5.9,15.2 7.8,20 11.8,22C12.1,22.1 12.4,22 12.6,21.8C12.8,21.6 12.9,21.3 12.8,21C12.3,18.8 13.1,16.5 14.8,15C16.5,13.5 18.9,13 21,13.7C21.3,13.8 21.6,13.7 21.8,13.5C22,13.3 22.1,13 22,12.7C21.2,7.1 17.5,3 17.2,3Z"/>
+                        <path d="M17.2,3C12.5,3 8.3,6.2 7.1,10.7C5.9,15.2 7.8,20 11.8,22C12.1,22.1 12.4,22 12.6,21.8C12.8,21.6 12.9,21.3 12.8,21C12.3,18.8 13.1,16.5 14.8,15C16.5,13.5 18.9,13 21,13.7C21.3,13.8 21.6,13.7 22,12.7C21.2,7.1 17.5,3 17.2,3Z"/>
                     </svg>
                 `;
             } else {
@@ -345,3 +353,4 @@
 
 </body>
 </html>
+
